@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -16,6 +17,7 @@ public class Restaurant extends AbstractEntity implements Serializable {
 
 	
 	private static final long serialVersionUID = 1L;
+	@OneToMany
 	private Collection<MenuItem> menu;
 	private String information;
 

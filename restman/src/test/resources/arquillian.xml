@@ -12,12 +12,23 @@
    <!-- Force the use of the Servlet 3.0 protocol with all containers, as it is the most mature -->
    <defaultProtocol type="Servlet 3.0" />
 
-   <!-- Example configuration for a remote JBoss AS 7 instance -->
+   <!-- JBoss AS 7 container configuration -->
    <container qualifier="jboss" default="true">
-      <!-- If you want to use the JBOSS_HOME environment variable, just delete the jbossHome property -->
       <configuration>
-         <property name="jbossHome">/path/to/jboss/as</property>
+         <property name="jbossHome">/home/sbunciak/jboss-as-7.1.1.Final/</property>
+         <property name="outputToConsole">true</property>
       </configuration>
    </container>
+   
+   <!-- OpenShift container configuration -->
+   <container qualifier="openshift-express">
+    <configuration>
+        <property name="namespace">sbunciak</property>
+        <property name="application">restman</property>
+        <property name="sshUserName"></property>
+        <property name="passphrase"></property>
+        <property name="login">sbunciak@redhat.com</property>
+    </configuration>
+</container>
 
 </arquillian>
