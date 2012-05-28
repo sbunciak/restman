@@ -3,7 +3,9 @@ package org.jboss.community.pv243.model;
 import java.io.Serializable;
 import java.util.Collection;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,11 +15,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @XmlRootElement
+@NamedQuery(name="Restaurant.findAll", query="SELECT r FROM Restaurant r")
 public class Restaurant extends AbstractEntity implements Serializable {
 
-	
 	private static final long serialVersionUID = 1L;
-	@OneToMany
+	
+	@OneToMany(cascade=CascadeType.ALL)
 	private Collection<MenuItem> menu;
 	private String information;
 
@@ -25,6 +28,7 @@ public class Restaurant extends AbstractEntity implements Serializable {
 		super();
 	}
 
+	// TODO: lazy fetch throws exception
 	public Collection<MenuItem> getMenu() {
 		return menu;
 	}
@@ -41,4 +45,10 @@ public class Restaurant extends AbstractEntity implements Serializable {
 		this.information = information;
 	}
    
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Better handling !!!
+		return this.getId() == ((Restaurant) obj).getId();
+	}
+	
 }
