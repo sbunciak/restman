@@ -25,32 +25,19 @@ public class UserManager {
 	
 	public void registerUser(User user) {
 		em.persist(user);
-		log.info("User: name=" + user.getName() + " " + user.getSecondName()
+		log.info("User: name=" + user.getFirstName() + " " + user.getSecondName()
 				+ " was succesfully registered");
 	}
 
 	public void deleteUser(User user) {
-		em.remove(em.find(User.class, user.getId()));
-		log.info("User: name=" + user.getName() + " " + user.getSecondName()
+		em.remove(em.merge(user));
+		log.info("User: name=" + user.getFirstName() + " " + user.getSecondName()
 				+ " was succesfully deleted");
 	}
 
 	public void updateUser(User newUser) {
 		em.merge(newUser);
-				
 		log.info("User: " + newUser + " was succesfully updated");
-	}
-
-	public void updateUser(int id, String firstName, String secondName) {
-		User user = em.find(User.class, id);
-		String tempFirstName = user.getName();
-		String tempSecondName = user.getSecondName();
-
-		user.setName(firstName);
-		user.setSecondName(secondName);
-		em.merge(user);
-		log.info("User: name=" + tempFirstName + " " + tempSecondName
-				+ " was succesfully updated");
 	}
 
 	public User getUser(int id) {
