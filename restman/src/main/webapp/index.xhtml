@@ -13,6 +13,32 @@
          <img src="resources/gfx/dualbrand_as7eap.png"/>
       </div>
 
+		<h:form id="test">
+			<h2>Test form</h2>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="firstName" value="Jmeno:" />
+				<h:inputText id="firstName" value="#{newUser.firstName}" />
+				<h:outputLabel for="secondName" value="Second name:"/>
+		        <h:inputText id="secondName" value="#{newUser.secondName}" />
+            </h:panelGrid>
+            <h:commandButton action="#{userController.registerUser}" value="Register" />
+			
+		</h:form>
+		<h:dataTable var="_user" value="#{users}" styleClass="simpletablestyle">
+         <h:column>
+            <f:facet name="header">Id</f:facet>
+                #{_user.idUser}
+         </h:column>
+         <h:column>
+            <f:facet name="header">Name</f:facet>
+                #{_user.firstName}
+         </h:column>
+         <h:column>
+            <f:facet name="header">Second Name</f:facet>
+                #{_user.secondName}
+         </h:column>
+        </h:dataTable>
+
       <h:form id="reg">
          <h2>Member Registration</h2>
          <p>Enforces annotation-based constraints defined on the model class.</p>

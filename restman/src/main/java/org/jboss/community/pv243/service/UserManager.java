@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -20,6 +21,9 @@ public class UserManager {
 
 	@Inject
 	private Logger log;
+	
+	@Inject
+	private Event<User> userEventSrc;
 
 	// TODO: implement public User authUser(String name, String password) {}
 	
@@ -27,6 +31,7 @@ public class UserManager {
 		em.persist(user);
 		log.info("User: name=" + user.getFirstName() + " " + user.getSecondName()
 				+ " was succesfully registered");
+		userEventSrc.fire(user);
 	}
 
 	public void deleteUser(User user) {
