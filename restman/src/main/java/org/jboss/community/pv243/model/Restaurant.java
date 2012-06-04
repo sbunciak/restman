@@ -10,46 +10,47 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Entity implementation class for Entity: Restaurant
- *
+ * 
  */
 @Entity
 @XmlRootElement
-@NamedQuery(name="Restaurant.findAll", query="SELECT r FROM Restaurant r")
-public class Restaurant implements Serializable {
+@NamedQueries({
+		@NamedQuery(name = "Restaurant.findAll", query = "SELECT r FROM Restaurant r"),
+		@NamedQuery(name = "Restaurant.auth", query = "SELECT r FROM Restaurant r WHERE r.email = :email AND r.password = :password") })
+public class Restaurant extends AbstractUser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_restaurant")
-	private int idRestaurant;
-	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_restaurant")
+	private int id;
+
 	private String name;
-	
+
 	private String information;
-	
+
 	private String address;
-	
-	@OneToMany(fetch=FetchType.LAZY, 
-			   cascade=CascadeType.ALL, mappedBy = "restaurant")
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "restaurant")
 	private Collection<Reservation> reservations;
-	
-	@OneToMany(fetch=FetchType.LAZY, 
-			   cascade=CascadeType.ALL, mappedBy = "restaurant")
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "restaurant")
 	private Collection<MenuItem> menu;
-	
-	public int getIdRestaurant() {
-		return idRestaurant;
+
+	public int getId() {
+		return id;
 	}
 
-	public void setIdRestaurant(int idRestaurant) {
-		this.idRestaurant = idRestaurant;
+	public void setId(int idRestaurant) {
+		this.id = idRestaurant;
 	}
 
 	public String getName() {
@@ -67,7 +68,7 @@ public class Restaurant implements Serializable {
 	public void setInformation(String information) {
 		this.information = information;
 	}
-	
+
 	public String getAddress() {
 		return address;
 	}

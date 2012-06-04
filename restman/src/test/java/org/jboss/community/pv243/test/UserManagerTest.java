@@ -1,12 +1,18 @@
 package org.jboss.community.pv243.test;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.community.pv243.model.Reservation;
 import org.jboss.community.pv243.model.User;
 import org.jboss.community.pv243.service.UserManager;
 import org.jboss.community.pv243.util.Resources;
@@ -22,40 +28,83 @@ public class UserManagerTest {
 
 	@Inject
 	UserManager userManager;
-	
+
 	@Test
-	public void testUserLifeCycle() {
-		// Create user
-		User newUser = new User();
-		newUser.setName("test");
-		newUser.setSecondName("user");
+	public void authUserTest() {
+		User newUser = createTestUser();
 		userManager.registerUser(newUser);
-		
-		// TODO: add reservations, integration tests???
+
+		User dbUser = userManager.authUser(newUser.getEmail(),
+				newUser.getPassword());
+
+		assertTrue(newUser.equals(dbUser));
+	}
+
+	@Test
+	public void registerUserTest() {
+		User newUser = createTestUser();
+		userManager.registerUser(newUser);
+
 		assertNotNull(newUser.getId());
-		
-		// test if user is fetched from db
-		assertTrue(userManager.getAllUsers().size() == 1);
-		
-		// change user
-		newUser.setSecondName("changedUser");
-		
-		// update user in db
-		userManager.updateUser(newUser.getId(), newUser);
-		
-		// test if the change has been propagated
-		assertTrue(userManager.getUser(newUser.getId()).equals(newUser));
-		
-		// delete user
+	}
+
+	@Test
+	public void deleteUserTest() {
+		User newUser = createTestUser();
+
+		userManager.registerUser(newUser);
 		userManager.deleteUser(newUser);
+
+		assertNull(userManager.getUser(newUser.getId()));
+	}
+
+	@Test
+	public void updateUser() {
+		User newUser = createTestUser();
+
+		userManager.registerUser(newUser);
+
+		newUser.setFirstName("Changed");
+		newUser.setSecondName("User2");
+		userManager.updateUser(newUser);
+
+		User dbUser = userManager.getUser(newUser.getId());
+
+		assertTrue(dbUser.getFirstName().equals("Changed"));
+		assertTrue(dbUser.getSecondName().equals("User2"));
+	}
+
+	@Test
+	public void getUser() {
 		
-		// check number of users in db
+		User newUser = createTestUser();
+
+		userManager.registerUser(newUser);
+
+		User dbUser = userManager.getUser(newUser.getId());
+
+		assertTrue(dbUser.equals(newUser));
+		// TODO: assertion (class not found on dbUser.getReservations(), lazy fetching)
+		assertTrue(dbUser.getReservations().equals(createTestReservations()));
+	}
+
+	@Test
+	public void getAllUsers() {
+		for (User u : userManager.getAllUsers()) {
+			userManager.deleteUser(u);
+		}
+
 		assertTrue(userManager.getAllUsers().isEmpty());
+
+		User newUser = createTestUser();
+
+		userManager.registerUser(newUser);
+
+		assertTrue(userManager.getAllUsers().size() == 1);
 	}
 
 	@Deployment
 	public static Archive<?> createTestArchive() {
-		System.out.println("creating test archive");
 		return ShrinkWrap
 				// Create test war archive
 				.create(WebArchive.class, "restman-test.war")
@@ -72,4 +121,17 @@ public class UserManagerTest {
 				.addAsWebInfResource("test-ds.xml", "test-ds.xml");
 	}
 
+	private User createTestUser() {
+		User newUser = new User();
+		newUser.setEmail("testuser" + new Date().getTime() + "@redhat.com");
+		newUser.setPassword("pwd1");
+		newUser.setFirstName("test");
+		newUser.setSecondName("user");
+		newUser.setReservations(createTestReservations());
+		return newUser;
+	}
+
+	private List<Reservation> createTestReservations() {
+		return new ArrayList<Reservation>();
+	}
 }

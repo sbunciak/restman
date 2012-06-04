@@ -23,11 +23,11 @@
    <!-- OpenShift container configuration -->
    <container qualifier="openshift-express">
     <configuration>
-        <property name="namespace">sbunciak</property>
-        <property name="application">restman</property>
+        <property name="namespace">man</property>
+        <property name="application">rest</property>
         <property name="sshUserName"></property>
-        <property name="passphrase"></property>
-        <property name="login">sbunciak@redhat.com</property>
+        <property name="passphrase">jboss!pwd1</property>
+        <property name="login">pipistik@mail.muni.cz</property>
     </configuration>
 </container>
 

@@ -23,7 +23,7 @@ public class MenuItem implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_menu_item")
-	private int idMenuItem;
+	private int id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_restaurant")
@@ -38,12 +38,12 @@ public class MenuItem implements Serializable {
 	
 	private int prize;
 
-	public int getIdMenuItem() {
-		return idMenuItem;
+	public int getId() {
+		return id;
 	}
 
-	public void setIdMenuItem(int idMenuItem) {
-		this.idMenuItem = idMenuItem;
+	public void setId(int idMenuItem) {
+		this.id = idMenuItem;
 	}
 
 	public Restaurant getRestaurant() {

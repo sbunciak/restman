@@ -28,7 +28,7 @@ public class Reservation implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_reservation")
-	private int idReservation;
+	private int id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_user")
@@ -54,17 +54,18 @@ public class Reservation implements Serializable {
 	
 	private Date time;
 	
+	// TODO: table management, number of available seats, tables, etc.
 	@Column(name="table_number")
 	private int tableNumber;
 	
 	private int seats;
 
-	public int getIdReservation() {
-		return idReservation;
+	public int getId() {
+		return id;
 	}
 
-	public void setIdReservation(int idReservation) {
-		this.idReservation = idReservation;
+	public void setId(int idReservation) {
+		this.id = idReservation;
 	}
 	
 	public User getUser() {
@@ -115,6 +116,9 @@ public class Reservation implements Serializable {
 		this.reservedMenu = reservedMenu;
 	}
 
+	
+	// TODO: override toString for logging (simpler code)
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
