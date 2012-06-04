@@ -21,8 +21,15 @@ public class RestaurantManager {
 	@Inject
 	private Logger log;
 
-	// TODO: implement public Restaurant getReservationsOfRestaurant(Restaurant r) {}
-	
+	public Restaurant authRestaurant(String email, String password) {
+		// TODO: better (security) handling
+		TypedQuery<Restaurant> query = em.createNamedQuery("Restaurant.auth",
+				Restaurant.class);
+		query.setParameter("email", email);
+		query.setParameter("password", password);
+		return query.getSingleResult();
+	}
+
 	public void createRestaurant(Restaurant restaurant) {
 		em.persist(restaurant);
 		log.info("Restaurant: " + restaurant.getName()
@@ -37,8 +44,8 @@ public class RestaurantManager {
 
 	public void updateRestaurant(Restaurant restaurant) {
 		em.merge(restaurant);
-		log.info("Restaurant: " + 
-				restaurant.getName() + " was succesfully updated");
+		log.info("Restaurant: " + restaurant.getName()
+				+ " was succesfully updated");
 	}
 
 	public Restaurant getRestaurant(int id) {

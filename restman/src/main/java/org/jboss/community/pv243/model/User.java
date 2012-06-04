@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -20,34 +21,35 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @XmlRootElement
-@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
-public class User implements Serializable {
+@NamedQueries({
+		@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+		@NamedQuery(name = "User.auth", query = "SELECT u FROM User u WHERE u.email = :email AND u.password = :password") })
+public class User extends AbstractUser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id_user")
-	private int idUser;
-	
-	@Column(name="first_name")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id_user")
+	private int id;
+
+	@Column(name = "first_name")
 	private String firstName;
-	
-	@Column(name="second_name")
+
+	@Column(name = "second_name")
 	private String secondName;
-	
+
 	private int number;
-	
-	@OneToMany(fetch=FetchType.LAZY, 
-			   cascade=CascadeType.ALL, mappedBy = "user")
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
 	private Collection<Reservation> reservations;
 
-	public int getIdUser() {
-		return idUser;
+	public int getId() {
+		return id;
 	}
 
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
+	public void setId(int idUser) {
+		this.id = idUser;
 	}
 
 	public String getFirstName() {
@@ -73,7 +75,7 @@ public class User implements Serializable {
 	public void setNumber(int number) {
 		this.number = number;
 	}
-	
+
 	public Collection<Reservation> getReservations() {
 		return reservations;
 	}
@@ -114,5 +116,5 @@ public class User implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

@@ -25,7 +25,7 @@ public class ReservationManager {
 
 	public void createReservation(Reservation reservation) {
 		em.persist(reservation);
-		log.info("Reservation: " + reservation.getIdReservation() 
+		log.info("Reservation: " + reservation.getId() 
 				+ " was created for user: name="
 				+ reservation.getUser().getFirstName()
 				+ " " + reservation.getUser().getSecondName());
@@ -34,7 +34,7 @@ public class ReservationManager {
 
 	public void removeReservation(Reservation reservation) {
 		em.remove(em.merge(reservation));
-		log.info("Reservation: " + reservation.getIdReservation() 
+		log.info("Reservation: " + reservation.getId() 
 				+ " was removed from user: name="
 				+ reservation.getUser().getFirstName()
 				+ " " + reservation.getUser().getSecondName());
@@ -43,7 +43,7 @@ public class ReservationManager {
 	
 	public void updateReservation(Reservation reservation) {
 		em.merge(reservation);
-		log.info("Reservation: " + reservation.getIdReservation() 
+		log.info("Reservation: " + reservation.getId() 
 				+ " was updated for user: name="
 				+ reservation.getUser().getFirstName()
 				+ " " + reservation.getUser().getSecondName());

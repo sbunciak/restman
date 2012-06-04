@@ -25,7 +25,15 @@ public class UserManager {
 	@Inject
 	private Event<User> userEventSrc;
 
-	// TODO: implement public User authUser(String name, String password) {}
+	
+	public User authUser(String email, String password) {
+		// TODO: better (security) handling 
+		TypedQuery<User> query = em
+				.createNamedQuery("User.auth", User.class);
+		query.setParameter("email", email);
+		query.setParameter("password", password);
+		return query.getSingleResult();
+	}
 	
 	public void registerUser(User user) {
 		em.persist(user);
