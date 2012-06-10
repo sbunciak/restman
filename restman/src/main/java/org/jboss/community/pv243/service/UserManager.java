@@ -3,6 +3,7 @@ package org.jboss.community.pv243.service;
 import java.util.List;
 import java.util.logging.Logger;
 
+
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.faces.bean.RequestScoped;
@@ -11,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import org.jboss.community.pv243.model.User;
+
 
 @Stateless
 @RequestScoped
@@ -25,7 +27,6 @@ public class UserManager {
 	@Inject
 	private Event<User> userEventSrc;
 
-	
 	public User authUser(String email, String password) {
 		// TODO: better (security) handling 
 		TypedQuery<User> query = em
@@ -38,7 +39,7 @@ public class UserManager {
 	public void registerUser(User user) {
 		em.persist(user);
 		log.info("User: name=" + user.getFirstName() + " " + user.getSecondName()
-				+ " was succesfully registered");
+		+ " was succesfully created");
 		userEventSrc.fire(user);
 	}
 

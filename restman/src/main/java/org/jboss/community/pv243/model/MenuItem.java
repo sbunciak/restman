@@ -5,14 +5,19 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @XmlRootElement
@@ -25,17 +30,23 @@ public class MenuItem implements Serializable {
 	@Column(name="id_menu_item")
 	private int id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_restaurant")
 	private Restaurant restaurant;
 	
 	@ManyToMany(mappedBy="reservedMenu")
 	private Collection<Reservation> reservations;
 	
+	@NotNull
+	@NotEmpty
+	@Size(min = 1, max = 25)
+	@Pattern(regexp = "[A-Za-z ]*", message = "must contain only letters and spaces")
 	private String name;
 	
+	@Min(1)
 	private int weight;
 	
+	@Min(1)
 	private int prize;
 
 	public int getId() {

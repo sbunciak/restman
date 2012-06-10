@@ -35,9 +35,7 @@ public class ReservationManager {
 	public void removeReservation(Reservation reservation) {
 		em.remove(em.merge(reservation));
 		log.info("Reservation: " + reservation.getId() 
-				+ " was removed from user: name="
-				+ reservation.getUser().getFirstName()
-				+ " " + reservation.getUser().getSecondName());
+				+ " was removed");
 
 	}
 	

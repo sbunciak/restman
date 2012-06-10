@@ -4,7 +4,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
@@ -39,6 +41,7 @@ public class MenuItemManagerTest {
 
 	@Inject
 	ReservationManager reservationManager;
+	
 	@Inject
 	UserManager userManager;
 
@@ -55,7 +58,7 @@ public class MenuItemManagerTest {
 		MenuItem item = createTestMenuItem();
 		manager.createMenuItem(item);
 
-		item.setName("FoodName2");
+		item.setName("ChangedName");
 		item.setPrize(1002);
 		item.setWeight(152);
 
@@ -101,7 +104,9 @@ public class MenuItemManagerTest {
 
 		Collection<MenuItem> menu = reservation.getReservedMenu();
 
-		assertTrue(manager.getReservationMenu(reservation).equals(menu));
+		assertTrue(Arrays.equals(manager.getReservationMenu(
+				reservation).toArray(), menu.toArray()));
+		
 	}
 
 	@Deployment
@@ -132,24 +137,19 @@ public class MenuItemManagerTest {
 
 	private Restaurant createPersistTestRestaurant() {
 		Restaurant newRestaurant = new Restaurant();
-		newRestaurant.setEmail("restaurant" + new Date().getTime()
+		newRestaurant.setEmail("restaurant" + new Date().getTime() % 10
 				+ "@redhat.com");
 		newRestaurant.setAddress("Purkynova 12");
 		newRestaurant.setPassword("pwd2");
 		newRestaurant.setInformation("Basic info");
-		newRestaurant.setName("RestaurantName" + new Date());
+		newRestaurant.setName("RestaurantName");
 		newRestaurant.setMenu(new ArrayList<MenuItem>());
 
-		restaurantManager.createRestaurant(newRestaurant);
 		MenuItem item = createTestMenuItem();
 		item.setRestaurant(newRestaurant);
-		manager.createMenuItem(item);
-
-		ArrayList<MenuItem> menu = new ArrayList<MenuItem>();
-		menu.add(item);
-
-		newRestaurant.setMenu(menu);
-		restaurantManager.updateRestaurant(newRestaurant);
+		newRestaurant.getMenu().add(item);
+		
+		restaurantManager.createRestaurant(newRestaurant);
 
 		return newRestaurant;
 	}
@@ -161,7 +161,7 @@ public class MenuItemManagerTest {
 		Reservation reservation = new Reservation();
 		reservation.setRestaurant(restaurant);
 		reservation.setUser(user);
-		reservation.setTime(new Date());
+		reservation.setTime(new Date(System.currentTimeMillis() + 1000));
 		reservation.setTableNumber(1);
 		reservation.setSeats(4);
 		reservation.setReservedMenu(restaurant.getMenu());
@@ -170,10 +170,11 @@ public class MenuItemManagerTest {
 
 	private User createPersistTestUser() {
 		User newUser = new User();
-		newUser.setEmail("testuser" + new Date().getTime() + "@redhat.com");
+		newUser.setEmail("testuser" + new Date().getTime() % 10 + "@redhat.com");
 		newUser.setPassword("pwd1");
 		newUser.setFirstName("test");
 		newUser.setSecondName("user");
+		newUser.setPhoneNumber(new BigDecimal("0907123123"));
 		newUser.setReservations(new ArrayList<Reservation>());
 
 		userManager.registerUser(newUser);

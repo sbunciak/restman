@@ -8,7 +8,6 @@ import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.community.pv243.controller.MemberController;
 import org.jboss.community.pv243.model.Member;
 import org.jboss.community.pv243.service.MemberRegistration;
 import org.jboss.community.pv243.util.Resources;

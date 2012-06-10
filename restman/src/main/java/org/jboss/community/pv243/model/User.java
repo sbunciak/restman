@@ -1,6 +1,7 @@
 package org.jboss.community.pv243.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -13,6 +14,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -34,14 +39,20 @@ public class User extends AbstractUser implements Serializable {
 	private int id;
 
 	@Column(name = "first_name")
+	@Size(min = 1, max = 25)
+	@Pattern(regexp = "[A-Za-z ]*", message = "must contain only letters and spaces")
 	private String firstName;
 
 	@Column(name = "second_name")
+	@Size(min = 1, max = 25)
+	@Pattern(regexp = "[A-Za-z ]*", message = "must contain only letters and spaces")
 	private String secondName;
 
-	private int number;
+	@NotNull
+	@Digits(fraction = 0, integer = 12)
+	private BigDecimal phoneNumber;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private Collection<Reservation> reservations;
 
 	public int getId() {
@@ -68,12 +79,12 @@ public class User extends AbstractUser implements Serializable {
 		this.secondName = secondName;
 	}
 
-	public int getNumber() {
-		return number;
+	public BigDecimal getPhoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setNumber(int number) {
-		this.number = number;
+	public void setPhoneNumber(BigDecimal phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 
 	public Collection<Reservation> getReservations() {

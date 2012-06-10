@@ -4,7 +4,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -65,13 +67,13 @@ public class UserManagerTest {
 		userManager.registerUser(newUser);
 
 		newUser.setFirstName("Changed");
-		newUser.setSecondName("User2");
+		newUser.setSecondName("User");
 		userManager.updateUser(newUser);
 
 		User dbUser = userManager.getUser(newUser.getId());
 
 		assertTrue(dbUser.getFirstName().equals("Changed"));
-		assertTrue(dbUser.getSecondName().equals("User2"));
+		assertTrue(dbUser.getSecondName().equals("User"));
 	}
 
 	@Test
@@ -85,7 +87,8 @@ public class UserManagerTest {
 
 		assertTrue(dbUser.equals(newUser));
 		// TODO: assertion (class not found on dbUser.getReservations(), lazy fetching)
-		assertTrue(dbUser.getReservations().equals(createTestReservations()));
+		assertTrue(Arrays.equals(dbUser.getReservations().toArray(), 
+				createTestReservations().toArray()));
 	}
 
 	@Test
@@ -127,6 +130,7 @@ public class UserManagerTest {
 		newUser.setPassword("pwd1");
 		newUser.setFirstName("test");
 		newUser.setSecondName("user");
+		newUser.setPhoneNumber(new BigDecimal("0907123123"));
 		newUser.setReservations(createTestReservations());
 		return newUser;
 	}

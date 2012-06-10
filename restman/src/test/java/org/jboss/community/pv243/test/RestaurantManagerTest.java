@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -84,7 +85,8 @@ public class RestaurantManagerTest {
 		Restaurant dbRestaurant = manager.getRestaurant(newRestaurant.getId());
 
 		assertTrue(newRestaurant.equals(dbRestaurant));
-		assertTrue(newRestaurant.getMenu().equals(createTestMenu()));
+		assertTrue(Arrays.equals(newRestaurant.getMenu().toArray(), 
+				createTestMenu().toArray()));
 	}
 
 	@Test
@@ -127,7 +129,7 @@ public class RestaurantManagerTest {
 		newRestaurant.setAddress("Purkynova 12");
 		newRestaurant.setPassword("pwd2");
 		newRestaurant.setInformation("Basic info");
-		newRestaurant.setName("RestaurantName" + new Date());
+		newRestaurant.setName("RestaurantName");
 		newRestaurant.setMenu(createTestMenu());
 		return newRestaurant;
 	}

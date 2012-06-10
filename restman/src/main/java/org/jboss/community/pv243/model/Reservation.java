@@ -6,7 +6,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Min;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -30,11 +31,11 @@ public class Reservation implements Serializable {
 	@Column(name="id_reservation")
 	private int id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_user")
 	private User user;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_restaurant")
 	private Restaurant restaurant;
 	
@@ -52,12 +53,14 @@ public class Reservation implements Serializable {
 	)
 	private Collection<MenuItem> reservedMenu;
 	
+	@Future
 	private Date time;
 	
 	// TODO: table management, number of available seats, tables, etc.
 	@Column(name="table_number")
 	private int tableNumber;
 	
+	@Min(1)
 	private int seats;
 
 	public int getId() {

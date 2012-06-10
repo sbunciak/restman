@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -34,19 +35,27 @@ public class ReservationManagerTest {
 
 	@Inject
 	ReservationManager reservationManager;
+	
 	@Inject
 	UserManager userManager;
+	
 	@Inject
 	RestaurantManager restaurantManager;
+	
 	@Inject
 	MenuItemManager menuManager;
 
 	@Test
 	public void createReservationTest() {
-		Reservation item = createTestReservation();
+		Reservation item = createTestReservation(
+				createPersistTestUser(), createPersistTestRestaurant());
+		
+		assertNull(reservationManager.getReservation(item.getId()));
+		
 		reservationManager.createReservation(item);
 
-		assertNotNull(item.getId());
+		assertNotNull(reservationManager.getReservation(item.getId()));
+		
 		Restaurant restaurant = restaurantManager.getRestaurant(item
 				.getRestaurant().getId());
 		assertTrue(restaurant.getReservations().contains(item));
@@ -57,53 +66,65 @@ public class ReservationManagerTest {
 
 	@Test
 	public void removeReservationTest() {
-		Reservation item = createTestReservation();
-		reservationManager.createReservation(item);
+		User user =  createPersistTestUser();
+		Restaurant restaurant = createPersistTestRestaurant();
+		
+		Reservation item = createTestReservation(user, restaurant);
+		
 		reservationManager.removeReservation(item);
-		assertNull(reservationManager.getReservation(item.getId()));
+		
+		assertTrue(reservationManager.getUserReservations(user).size() + "", 
+				reservationManager.getUserReservations(user).size() == 1);
+		
+		assertNull(item.getId() + "", reservationManager.getReservation(item.getId()));
 
-		Restaurant restaurant = restaurantManager.getRestaurant(item
+		restaurant = restaurantManager.getRestaurant(item
 				.getRestaurant().getId());
 		assertFalse(restaurant.getReservations().contains(item));
 
-		User user = userManager.getUser(item.getUser().getId());
+		user = userManager.getUser(item.getUser().getId());
 		assertFalse(user.getReservations().contains(item));
 	}
 
 	@Test
 	public void updateReservationTest() {
-		Reservation item = createTestReservation();
+		Reservation item = createTestReservation(
+				createPersistTestUser(), createPersistTestRestaurant());
 		reservationManager.createReservation(item);
 
 		item.setTableNumber(3);
 		item.setSeats(5);
-		item.setTime(new Date());
+		item.setTime(new Date(System.currentTimeMillis() + 1000));
 
 		reservationManager.updateReservation(item);
 
 		Reservation dbItem = reservationManager.getReservation(item.getId());
-		assertTrue(dbItem.getTime().equals(item.getTime()));
+		assertTrue(dbItem.getTime().getTime() == item.getTime().getTime());
 		assertTrue(dbItem.getSeats() == item.getSeats());
 		assertTrue(dbItem.getTableNumber() == item.getTableNumber());
 	}
 
 	@Test
 	public void removeAllReservationsTest() {
-		Reservation res1 = createTestReservation();
-		Reservation res2 = createTestReservation();
+		User user = createPersistTestUser();
+		Restaurant restaurant = createPersistTestRestaurant();
+		
+		Reservation res1 = createTestReservation(user, restaurant);
+		Reservation res2 = createTestReservation(user, restaurant);
 
 		reservationManager.createReservation(res1);
 		reservationManager.createReservation(res2);
 
-		reservationManager.removeAllReservations(res1.getUser());
+		reservationManager.removeAllReservations(user);
 
-		assertTrue(reservationManager.getUserReservations(res1.getUser())
-				.isEmpty());
+		assertTrue(reservationManager.getUserReservations(user).size() + "", 
+				reservationManager.getUserReservations(user).isEmpty());
 	}
 
 	@Test
 	public void getReservationTest() {
-		Reservation item = createTestReservation();
+		Reservation item = createTestReservation(
+				createPersistTestUser(), createPersistTestRestaurant());
 		reservationManager.createReservation(item);
 
 		Reservation dbItem = reservationManager.getReservation(item.getId());
@@ -113,23 +134,30 @@ public class ReservationManagerTest {
 
 	@Test
 	public void getUserReservationsTest() {
-		Reservation res1 = createTestReservation();
-		Reservation res2 = createTestReservation();
-
+		User user = createPersistTestUser();
+		Restaurant restaurant = createPersistTestRestaurant();
+		
+		Reservation res1 = createTestReservation(user, restaurant);
+		Reservation res2 = createTestReservation(user, restaurant);
+		
 		reservationManager.createReservation(res1);
 		reservationManager.createReservation(res2);
-
+		
 		Collection<Reservation> reservations = reservationManager
-				.getUserReservations(res1.getUser());
+				.getUserReservations(user);
 
-		assertTrue(reservations.size() == 2 & reservations.contains(res1)
-				& reservations.contains(res2));
+		assertTrue(reservations.size() + "", reservations.size() == 2);
+		assertTrue(reservations.contains(res1));
+		assertTrue(reservations.contains(res2));
 	}
 
 	@Test
 	public void getRestaurantReservationsTest() {
-		Reservation res1 = createTestReservation();
-		Reservation res2 = createTestReservation();
+		User user = createPersistTestUser();
+		Restaurant restaurant = createPersistTestRestaurant();
+		
+		Reservation res1 = createTestReservation(user, restaurant);
+		Reservation res2 = createTestReservation(user, restaurant);
 
 		reservationManager.createReservation(res1);
 		reservationManager.createReservation(res2);
@@ -159,17 +187,22 @@ public class ReservationManagerTest {
 				.addAsWebInfResource("test-ds.xml", "test-ds.xml");
 	}
 
-	private Reservation createTestReservation() {
-		Restaurant restaurant = createPersistTestRestaurant();
-		User user = createPersistTestUser();
-
+	private Reservation createTestReservation(User persistedUser, 
+			Restaurant persistedRestaurant) {
 		Reservation reservation = new Reservation();
-		reservation.setRestaurant(restaurant);
-		reservation.setUser(user);
-		reservation.setTime(new Date());
+		reservation.setTime(new Date(System.currentTimeMillis() + 1000));
 		reservation.setTableNumber(1);
 		reservation.setSeats(4);
-		reservation.setReservedMenu(restaurant.getMenu());
+		
+		/* set all necessary entities for reservation */
+		reservation.setUser(persistedUser);
+		reservation.setRestaurant(persistedRestaurant);
+//		reservation.setReservedMenu(persistedRestaurant.getMenu());
+		
+		/* reservation is set to all necessary entities */
+		persistedUser.getReservations().add(reservation);
+		persistedRestaurant.getReservations().add(reservation);
+		
 		return reservation;
 	}
 
@@ -179,6 +212,7 @@ public class ReservationManagerTest {
 		newUser.setPassword("pwd1");
 		newUser.setFirstName("test");
 		newUser.setSecondName("user");
+		newUser.setPhoneNumber(new BigDecimal("0907123123"));
 		newUser.setReservations(new ArrayList<Reservation>());
 
 		userManager.registerUser(newUser);
@@ -193,21 +227,23 @@ public class ReservationManagerTest {
 		newRestaurant.setAddress("Purkynova 12");
 		newRestaurant.setPassword("pwd2");
 		newRestaurant.setInformation("Basic info");
-		newRestaurant.setName("RestaurantName" + new Date());
-		restaurantManager.createRestaurant(newRestaurant);
+		newRestaurant.setName("RestaurantName");
 		
 		MenuItem item = new MenuItem();
 		item.setName("snicl");
 		item.setPrize(200);
 		item.setWeight(150);
 		item.setRestaurant(newRestaurant);
-		menuManager.createMenuItem(item);
 
 		ArrayList<MenuItem> menu = new ArrayList<MenuItem>();
 		menu.add(item);
 
 		newRestaurant.setMenu(menu);
-		restaurantManager.updateRestaurant(newRestaurant);
+		
+		ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+		newRestaurant.setReservations(reservations);
+		
+		restaurantManager.createRestaurant(newRestaurant);
 
 		return newRestaurant;
 	}

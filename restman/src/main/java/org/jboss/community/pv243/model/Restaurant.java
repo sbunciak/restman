@@ -13,7 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Entity implementation class for Entity: Restaurant
@@ -33,13 +37,19 @@ public class Restaurant extends AbstractUser implements Serializable {
 	@Column(name = "id_restaurant")
 	private int id;
 
+	@NotNull
+	@Size(min = 1, max = 25)
 	private String name;
 
+	@NotNull
+	@NotEmpty
 	private String information;
 
+	@NotNull
+	@NotEmpty
 	private String address;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "restaurant")
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "restaurant")
 	private Collection<Reservation> reservations;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "restaurant")
