@@ -33,7 +33,10 @@ public class ReservationManager {
 	}
 
 	public void removeReservation(Reservation reservation) {
-		em.remove(em.merge(reservation));
+		Reservation attachedReserv = em.merge(reservation);
+		attachedReserv.getUser().getReservations().remove(attachedReserv);
+		attachedReserv.getRestaurant().getReservations().remove(attachedReserv);
+		em.remove(attachedReserv);
 		log.info("Reservation: " + reservation.getId() 
 				+ " was removed");
 
@@ -47,13 +50,20 @@ public class ReservationManager {
 				+ " " + reservation.getUser().getSecondName());
 	}
 
-	public void removeAllReservations(User user) {
-		User tempUser = em.merge(user);
-		for (Reservation reservation : tempUser.getReservations()) {
+	public void removeAllUserReservations(User user) {
+		for (Reservation reservation : user.getReservations()) {
 			removeReservation(reservation);
 		}
 		log.info("All reservation were removed from user: name="
 				+ user.getFirstName() + " " + user.getSecondName());
+	}
+	
+	public void removeAllRestaurantReservation(Restaurant restaurant) {
+		for (Reservation reservation : restaurant.getReservations()) {
+			removeReservation(reservation);
+		}
+		log.info("All reservation were removed from restaurant: name="
+				+ restaurant.getName());
 	}
 
 	public Reservation getReservation(int idReservation) {

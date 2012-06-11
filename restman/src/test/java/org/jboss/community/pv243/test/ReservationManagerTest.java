@@ -73,16 +73,13 @@ public class ReservationManagerTest {
 		
 		reservationManager.removeReservation(item);
 		
-		assertTrue(reservationManager.getUserReservations(user).size() + "", 
-				reservationManager.getUserReservations(user).size() == 1);
-		
-		assertNull(item.getId() + "", reservationManager.getReservation(item.getId()));
+		assertNull(reservationManager.getReservation(item.getId()));
 
-		restaurant = restaurantManager.getRestaurant(item
-				.getRestaurant().getId());
+		user = userManager.getUser(user.getId());
+		restaurant = restaurantManager.getRestaurant(restaurant.getId());
+		
 		assertFalse(restaurant.getReservations().contains(item));
 
-		user = userManager.getUser(item.getUser().getId());
 		assertFalse(user.getReservations().contains(item));
 	}
 
@@ -105,20 +102,35 @@ public class ReservationManagerTest {
 	}
 
 	@Test
-	public void removeAllReservationsTest() {
+	public void removeAllUserReservationsTest() {
 		User user = createPersistTestUser();
-		Restaurant restaurant = createPersistTestRestaurant();
 		
-		Reservation res1 = createTestReservation(user, restaurant);
-		Reservation res2 = createTestReservation(user, restaurant);
-
+		Reservation res1 = createTestReservation(user, createPersistTestRestaurant());
+		Reservation res2 = createTestReservation(user, createPersistTestRestaurant());
+		
 		reservationManager.createReservation(res1);
 		reservationManager.createReservation(res2);
 
-		reservationManager.removeAllReservations(user);
+		reservationManager.removeAllUserReservations(user);
 
-		assertTrue(reservationManager.getUserReservations(user).size() + "", 
-				reservationManager.getUserReservations(user).isEmpty());
+		user = userManager.getUser(user.getId());
+		assertTrue(user.getReservations().isEmpty());
+	}
+	
+	@Test
+	public void removeAllRestaurantReservationsTest() {
+		Restaurant restaurant = createPersistTestRestaurant();
+		
+		Reservation res1 = createTestReservation(createPersistTestUser(), restaurant);
+		Reservation res2 = createTestReservation(createPersistTestUser(), restaurant);
+		
+		reservationManager.createReservation(res1);
+		reservationManager.createReservation(res2);
+
+		reservationManager.removeAllRestaurantReservation(restaurant);
+
+		restaurant = restaurantManager.getRestaurant(restaurant.getId());
+		assertTrue(restaurant.getReservations().isEmpty());
 	}
 
 	@Test
