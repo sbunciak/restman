@@ -34,7 +34,7 @@ import org.junit.runner.RunWith;
 public class MenuItemManagerTest {
 
 	@Inject
-	MenuItemManager manager;
+	MenuItemManager menuItemManager;
 
 	@Inject
 	RestaurantManager restaurantManager;
@@ -48,7 +48,7 @@ public class MenuItemManagerTest {
 	@Test
 	public void createMenuItemTest() {
 		MenuItem item = createTestMenuItem();
-		manager.createMenuItem(item);
+		menuItemManager.createMenuItem(item);
 
 		assertNotNull(item.getId());
 	}
@@ -56,15 +56,15 @@ public class MenuItemManagerTest {
 	@Test
 	public void updateMenuItemTest() {
 		MenuItem item = createTestMenuItem();
-		manager.createMenuItem(item);
+		menuItemManager.createMenuItem(item);
 
 		item.setName("ChangedName");
 		item.setPrize(1002);
 		item.setWeight(152);
 
-		manager.updateMenuItem(item);
+		menuItemManager.updateMenuItem(item);
 
-		MenuItem dbItem = manager.getMenuItem(item.getId());
+		MenuItem dbItem = menuItemManager.getMenuItem(item.getId());
 		assertTrue(dbItem.getName().equals(item.getName()));
 		assertTrue(dbItem.getPrize() == item.getPrize());
 		assertTrue(dbItem.getWeight() == item.getWeight());
@@ -73,17 +73,17 @@ public class MenuItemManagerTest {
 	@Test
 	public void removeMenuItemTest() {
 		MenuItem item = createTestMenuItem();
-		manager.createMenuItem(item);
-		manager.removeMenuItem(item);
-		assertNull(manager.getMenuItem(item.getId()));
+		menuItemManager.createMenuItem(item);
+		menuItemManager.removeMenuItem(item);
+		assertNull(menuItemManager.getMenuItem(item.getId()));
 	}
 
 	@Test
 	public void getMenuItemTest() {
 		MenuItem item = createTestMenuItem();
-		manager.createMenuItem(item);
+		menuItemManager.createMenuItem(item);
 
-		MenuItem dbItem = manager.getMenuItem(item.getId());
+		MenuItem dbItem = menuItemManager.getMenuItem(item.getId());
 
 		assertTrue(item.equals(dbItem));
 	}
@@ -94,17 +94,22 @@ public class MenuItemManagerTest {
 
 		Collection<MenuItem> menu = res.getMenu();
 
-		manager.getRestaurantMenu(res).equals(menu);
+		menuItemManager.getRestaurantMenu(res).equals(menu);
 	}
 
 	@Test
 	public void getReservationMenuTest() {
+		Restaurant restaurant = createPersistTestRestaurant();
+		
 		Reservation reservation = createTestReservation();
-		reservationManager.createReservation(reservation);
+		reservationManager.createReservation(reservation, 
+				createPersistTestUser(), restaurant);
+		reservation.setReservedMenu(restaurant.getMenu());
+		reservationManager.updateReservation(reservation);
 
 		Collection<MenuItem> menu = reservation.getReservedMenu();
 
-		assertTrue(Arrays.equals(manager.getReservationMenu(
+		assertTrue(Arrays.equals(menuItemManager.getReservationMenu(
 				reservation).toArray(), menu.toArray()));
 		
 	}
@@ -126,7 +131,7 @@ public class MenuItemManagerTest {
 				// Deploy our test datasource
 				.addAsWebInfResource("test-ds.xml", "test-ds.xml");
 	}
-
+	
 	private MenuItem createTestMenuItem() {
 		MenuItem item = new MenuItem();
 		item.setName("snicl");
@@ -137,7 +142,7 @@ public class MenuItemManagerTest {
 
 	private Restaurant createPersistTestRestaurant() {
 		Restaurant newRestaurant = new Restaurant();
-		newRestaurant.setEmail("restaurant" + new Date().getTime() % 10
+		newRestaurant.setEmail("restaurant" + new Date().getTime()
 				+ "@redhat.com");
 		newRestaurant.setAddress("Purkynova 12");
 		newRestaurant.setPassword("pwd2");
@@ -155,16 +160,10 @@ public class MenuItemManagerTest {
 	}
 
 	private Reservation createTestReservation() {
-		Restaurant restaurant = createPersistTestRestaurant();
-		User user = createPersistTestUser();
-
 		Reservation reservation = new Reservation();
-		reservation.setRestaurant(restaurant);
-		reservation.setUser(user);
 		reservation.setTime(new Date(System.currentTimeMillis() + 1000));
 		reservation.setTableNumber(1);
 		reservation.setSeats(4);
-		reservation.setReservedMenu(restaurant.getMenu());
 		return reservation;
 	}
 

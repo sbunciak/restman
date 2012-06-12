@@ -1,5 +1,6 @@
 package org.jboss.community.pv243.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
 
@@ -23,12 +24,22 @@ public class ReservationManager {
 	@Inject
 	private Logger log;
 
-	public void createReservation(Reservation reservation) {
+	public void createReservation(Reservation reservation, User user, Restaurant restaurant) {
+		
+		user.getReservations().add(reservation);
+		em.merge(user);
+		restaurant.getReservations().add(reservation);
+		em.merge(restaurant);
+		
+		reservation.setUser(user);
+		reservation.setRestaurant(restaurant);
+		
+		if (reservation.getReservedMenu() == null) 
+			reservation.setReservedMenu(new ArrayList<MenuItem>());
 		em.persist(reservation);
 		log.info("Reservation: " + reservation.getId() 
-				+ " was created for user: name="
-				+ reservation.getUser().getFirstName()
-				+ " " + reservation.getUser().getSecondName());
+				+ " was created for user "
+				+ user.getFirstName() + " " + user.getSecondName());
 
 	}
 

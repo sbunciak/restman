@@ -47,12 +47,12 @@ public class ReservationManagerTest {
 
 	@Test
 	public void createReservationTest() {
-		Reservation item = createTestReservation(
-				createPersistTestUser(), createPersistTestRestaurant());
+		Reservation item = createTestReservation();
 		
 		assertNull(reservationManager.getReservation(item.getId()));
 		
-		reservationManager.createReservation(item);
+		reservationManager.createReservation(item, 
+				createPersistTestUser(), createPersistTestRestaurant());
 
 		assertNotNull(reservationManager.getReservation(item.getId()));
 		
@@ -69,8 +69,9 @@ public class ReservationManagerTest {
 		User user =  createPersistTestUser();
 		Restaurant restaurant = createPersistTestRestaurant();
 		
-		Reservation item = createTestReservation(user, restaurant);
+		Reservation item = createTestReservation();
 		
+		reservationManager.createReservation(item, user, restaurant);
 		reservationManager.removeReservation(item);
 		
 		assertNull(reservationManager.getReservation(item.getId()));
@@ -85,9 +86,9 @@ public class ReservationManagerTest {
 
 	@Test
 	public void updateReservationTest() {
-		Reservation item = createTestReservation(
+		Reservation item = createTestReservation();
+		reservationManager.createReservation(item, 
 				createPersistTestUser(), createPersistTestRestaurant());
-		reservationManager.createReservation(item);
 
 		item.setTableNumber(3);
 		item.setSeats(5);
@@ -105,11 +106,11 @@ public class ReservationManagerTest {
 	public void removeAllUserReservationsTest() {
 		User user = createPersistTestUser();
 		
-		Reservation res1 = createTestReservation(user, createPersistTestRestaurant());
-		Reservation res2 = createTestReservation(user, createPersistTestRestaurant());
+		Reservation res1 = createTestReservation();
+		Reservation res2 = createTestReservation();
 		
-		reservationManager.createReservation(res1);
-		reservationManager.createReservation(res2);
+		reservationManager.createReservation(res1, user, createPersistTestRestaurant());
+		reservationManager.createReservation(res2, user, createPersistTestRestaurant());
 
 		reservationManager.removeAllUserReservations(user);
 
@@ -121,11 +122,11 @@ public class ReservationManagerTest {
 	public void removeAllRestaurantReservationsTest() {
 		Restaurant restaurant = createPersistTestRestaurant();
 		
-		Reservation res1 = createTestReservation(createPersistTestUser(), restaurant);
-		Reservation res2 = createTestReservation(createPersistTestUser(), restaurant);
+		Reservation res1 = createTestReservation();
+		Reservation res2 = createTestReservation();
 		
-		reservationManager.createReservation(res1);
-		reservationManager.createReservation(res2);
+		reservationManager.createReservation(res1, createPersistTestUser(), restaurant);
+		reservationManager.createReservation(res2, createPersistTestUser(), restaurant);
 
 		reservationManager.removeAllRestaurantReservation(restaurant);
 
@@ -135,9 +136,9 @@ public class ReservationManagerTest {
 
 	@Test
 	public void getReservationTest() {
-		Reservation item = createTestReservation(
+		Reservation item = createTestReservation();
+		reservationManager.createReservation(item, 
 				createPersistTestUser(), createPersistTestRestaurant());
-		reservationManager.createReservation(item);
 
 		Reservation dbItem = reservationManager.getReservation(item.getId());
 
@@ -149,11 +150,11 @@ public class ReservationManagerTest {
 		User user = createPersistTestUser();
 		Restaurant restaurant = createPersistTestRestaurant();
 		
-		Reservation res1 = createTestReservation(user, restaurant);
-		Reservation res2 = createTestReservation(user, restaurant);
+		Reservation res1 = createTestReservation();
+		Reservation res2 = createTestReservation();
 		
-		reservationManager.createReservation(res1);
-		reservationManager.createReservation(res2);
+		reservationManager.createReservation(res1, user, restaurant);
+		reservationManager.createReservation(res2, user, restaurant);
 		
 		Collection<Reservation> reservations = reservationManager
 				.getUserReservations(user);
@@ -168,11 +169,11 @@ public class ReservationManagerTest {
 		User user = createPersistTestUser();
 		Restaurant restaurant = createPersistTestRestaurant();
 		
-		Reservation res1 = createTestReservation(user, restaurant);
-		Reservation res2 = createTestReservation(user, restaurant);
+		Reservation res1 = createTestReservation();
+		Reservation res2 = createTestReservation();
 
-		reservationManager.createReservation(res1);
-		reservationManager.createReservation(res2);
+		reservationManager.createReservation(res1, user, restaurant);
+		reservationManager.createReservation(res2, user, restaurant);
 
 		Collection<Reservation> reservations = reservationManager
 				.getRestaurantReservations(res1.getRestaurant());
@@ -199,22 +200,11 @@ public class ReservationManagerTest {
 				.addAsWebInfResource("test-ds.xml", "test-ds.xml");
 	}
 
-	private Reservation createTestReservation(User persistedUser, 
-			Restaurant persistedRestaurant) {
+	private Reservation createTestReservation() {
 		Reservation reservation = new Reservation();
 		reservation.setTime(new Date(System.currentTimeMillis() + 1000));
 		reservation.setTableNumber(1);
 		reservation.setSeats(4);
-		
-		/* set all necessary entities for reservation */
-		reservation.setUser(persistedUser);
-		reservation.setRestaurant(persistedRestaurant);
-//		reservation.setReservedMenu(persistedRestaurant.getMenu());
-		
-		/* reservation is set to all necessary entities */
-		persistedUser.getReservations().add(reservation);
-		persistedRestaurant.getReservations().add(reservation);
-		
 		return reservation;
 	}
 

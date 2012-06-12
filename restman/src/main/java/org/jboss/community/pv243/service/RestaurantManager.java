@@ -1,5 +1,6 @@
 package org.jboss.community.pv243.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
 
@@ -10,6 +11,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.jboss.community.pv243.model.MenuItem;
+import org.jboss.community.pv243.model.Reservation;
 import org.jboss.community.pv243.model.Restaurant;
 
 @Stateless
@@ -35,6 +38,11 @@ public class RestaurantManager {
 	}
 
 	public void createRestaurant(Restaurant restaurant) {
+		if (restaurant.getReservations() == null) 
+			restaurant.setReservations(new ArrayList<Reservation>());
+		if (restaurant.getMenu() == null) {
+			restaurant.setMenu(new ArrayList<MenuItem>());
+		}
 		em.persist(restaurant);
 		log.info("Restaurant: " + restaurant.getName()
 				+ " was succesfully created");

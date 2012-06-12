@@ -1,8 +1,8 @@
 package org.jboss.community.pv243.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
 
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import org.jboss.community.pv243.model.Reservation;
 import org.jboss.community.pv243.model.User;
 
 
@@ -37,6 +38,8 @@ public class UserManager {
 	}
 	
 	public void registerUser(User user) {
+		if (user.getReservations() == null)
+			user.setReservations(new ArrayList<Reservation>());
 		em.persist(user);
 		log.info("User: name=" + user.getFirstName() + " " + user.getSecondName()
 		+ " was succesfully created");
