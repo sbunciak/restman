@@ -16,11 +16,14 @@
          	Top!
          </ui:insert>
          </div>
-         <div id="logo"><img height="100px" src="../resources/gfx/RESTManBlack.png" /></div>
+         <div id="logo"><img height="100px" src="#{request.contextPath}/resources/gfx/RESTManBlack.png" /></div>
       </div>
       <div id="left">
       	 <ui:insert name="left">
-         	LEFT!          
+      	 	<h:outputLink value="#{request.contextPath}/index.jsf">Index</h:outputLink><br/>
+      	 	<h:outputLink value="#{request.contextPath}/addUser.jsf">Add User</h:outputLink><br/>
+      	 	<h:outputLink value="#{request.contextPath}/showRestaurants.jsf">Show Restaurants</h:outputLink><br/>
+         	<h:outputLink value="#{request.contextPath}/addRestaurant.jsf">Add Restaurant</h:outputLink><br/>
          </ui:insert>
       </div>
       <div id="content">

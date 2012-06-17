@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   template="templates/UserTemplate.xhtml">
+   
+   <ui:define name="top">
+   		<h1>Add Restaurant</h1>
+   </ui:define>
+   <ui:define name="content">
+      <h1>Add Restaurant</h1>
+
+		<h:form id="addRestaurant">
+			<h2>Add  Restaurant</h2>
+			<h:panelGrid columns="3">
+				<h:outputLabel for="email" value="Email:"/>
+		        <h:inputText id="email" value="#{restaurant.email}" />
+		        <h:message for="email" errorClass="invalid"/>
+		        <h:outputLabel for="password" value="Password:"/>
+		        <h:inputSecret id="password" value="#{restaurant.password}" />
+		        <h:message for="password" errorClass="invalid"/>
+				<h:outputLabel for="name" value="Jmeno:" />
+				<h:inputText id="name" value="#{restaurant.name}" />
+				<h:message for="name" errorClass="invalid"/>
+				<h:outputLabel for="information" value="Information:"/>
+		        <h:inputText id="information" value="#{restaurant.information}" />
+		        <h:message for="information" errorClass="invalid"/>
+		    	<h:outputLabel for="address" value="Address:"/>
+		        <h:inputText id="address" value="#{restaurant.address}" />
+		        <h:message for="address" errorClass="invalid"/>
+		        
+            </h:panelGrid>
+            <h:panelGrid columns="2">
+	            <h:commandButton action="#{restaurantController.registerRestaurant()}" value="Register" />
+	            <h:messages styleClass="messages" errorClass="invalid" infoClass="valid" warnClass="warning"
+	                           globalOnly="true"/>
+            </h:panelGrid>
+			
+		</h:form>
+   </ui:define>
+</ui:composition>

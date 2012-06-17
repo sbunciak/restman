@@ -30,6 +30,9 @@
 				<h:inputText id="firstName" value="#{newUser.firstName}" />
 				<h:outputLabel for="secondName" value="Second name:"/>
 		        <h:inputText id="secondName" value="#{newUser.secondName}" />
+		        <h:outputLabel for="phoneNumber" value="Phone Number:"/>
+		        <h:inputText id="phoneNumber" value="#{newUser.phoneNumber}" />
+		        
             </h:panelGrid>
             <h:commandButton action="#{userController.registerUser}" value="Register" />
 			
@@ -37,7 +40,7 @@
 		<h:dataTable var="_user" value="#{users}" styleClass="simpletablestyle">
          <h:column>
             <f:facet name="header">Id</f:facet>
-                #{_user.idUser}
+                #{_user.id}
          </h:column>
          <h:column>
             <f:facet name="header">Name</f:facet>
@@ -46,6 +49,10 @@
          <h:column>
             <f:facet name="header">Second Name</f:facet>
                 #{_user.secondName}
+         </h:column>
+         <h:column>
+            <f:facet name="header">Phone Number</f:facet>
+                #{_user.phoneNumber}
          </h:column>
         </h:dataTable>
    </ui:define>
