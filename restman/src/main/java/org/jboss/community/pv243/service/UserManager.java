@@ -40,6 +40,7 @@ public class UserManager {
 	public void registerUser(User user) {
 		if (user.getReservations() == null)
 			user.setReservations(new ArrayList<Reservation>());
+		user.setRole("USER");
 		em.persist(user);
 		log.info("User: name=" + user.getFirstName() + " " + user.getSecondName()
 		+ " was succesfully created");

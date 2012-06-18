@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -26,16 +27,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @XmlRootElement
 @NamedQueries({
-		@NamedQuery(name = "Restaurant.findAll", query = "SELECT r FROM Restaurant r"),
-		@NamedQuery(name = "Restaurant.auth", query = "SELECT r FROM Restaurant r WHERE r.email = :email AND r.password = :password") })
+		@NamedQuery(name = "Restaurant.findAll", query = "SELECT r FROM Restaurant r")})
+//		@NamedQuery(name = "Restaurant.auth", query = "SELECT r FROM Restaurant r WHERE r.email = :email AND r.password = :password") })
 public class Restaurant extends AbstractUser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_restaurant")
-	private int id;
 
 	@NotNull
 	@Size(min = 1, max = 25)
@@ -54,14 +50,6 @@ public class Restaurant extends AbstractUser implements Serializable {
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "restaurant")
 	private Collection<MenuItem> menu;
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int idRestaurant) {
-		this.id = idRestaurant;
-	}
 
 	public String getName() {
 		return name;

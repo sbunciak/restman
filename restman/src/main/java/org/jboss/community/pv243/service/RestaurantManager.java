@@ -44,6 +44,7 @@ public class RestaurantManager {
 		if (restaurant.getMenu() == null) {
 			restaurant.setMenu(new ArrayList<MenuItem>());
 		}
+		restaurant.setRole("MANAGER");
 		em.persist(restaurant);
 		log.info("Restaurant: " + restaurant.getName()
 				+ " was succesfully created");

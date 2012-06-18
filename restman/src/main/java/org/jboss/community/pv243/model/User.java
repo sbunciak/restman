@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,16 +28,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 @NamedQueries({
-		@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
-		@NamedQuery(name = "User.auth", query = "SELECT u FROM User u WHERE u.email = :email AND u.password = :password") })
+		@NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")})
+//		@NamedQuery(name = "User.auth", query = "SELECT u FROM User u WHERE u.email = :email AND u.password = :password") })
 public class User extends AbstractUser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_user")
-	private int id;
 
 	@Column(name = "first_name")
 	@Size(min = 1, max = 25)
@@ -55,13 +51,7 @@ public class User extends AbstractUser implements Serializable {
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
 	private Collection<Reservation> reservations;
 
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int idUser) {
-		this.id = idUser;
-	}
 
 	public String getFirstName() {
 		return firstName;
