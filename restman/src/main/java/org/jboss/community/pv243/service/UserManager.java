@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.faces.bean.RequestScoped;
@@ -29,7 +30,6 @@ public class UserManager {
 	private Event<User> userEventSrc;
 
 	public User authUser(String email, String password) {
-		// TODO: better (security) handling 
 		TypedQuery<User> query = em
 				.createNamedQuery("User.auth", User.class);
 		query.setParameter("email", email);
@@ -46,21 +46,25 @@ public class UserManager {
 		userEventSrc.fire(user);
 	}
 
+	@RolesAllowed({"ADMIN"})
 	public void deleteUser(User user) {
 		em.remove(em.merge(user));
 		log.info("User: name=" + user.getFirstName() + " " + user.getSecondName()
 				+ " was succesfully deleted");
 	}
-
+	
+	@RolesAllowed({"USER"})
 	public void updateUser(User newUser) {
 		em.merge(newUser);
 		log.info("User: " + newUser + " was succesfully updated");
 	}
 
+	@RolesAllowed({"ADMIN"})
 	public User getUser(int id) {
 		return em.find(User.class, id);
 	}
 
+	@RolesAllowed({"ADMIN"})
 	public List<User> getAllUsers() {
 		TypedQuery<User> query = em
 				.createNamedQuery("User.findAll", User.class);

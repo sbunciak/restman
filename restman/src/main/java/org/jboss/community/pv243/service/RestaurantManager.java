@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.enterprise.event.Event;
 import javax.faces.bean.RequestScoped;
@@ -29,7 +30,6 @@ public class RestaurantManager {
 	private Event<Restaurant> restaurantEventSrc;
 
 	public Restaurant authRestaurant(String email, String password) {
-		// TODO: better (security) handling
 		TypedQuery<Restaurant> query = em.createNamedQuery("Restaurant.auth",
 				Restaurant.class);
 		query.setParameter("email", email);
@@ -37,6 +37,7 @@ public class RestaurantManager {
 		return query.getSingleResult();
 	}
 
+	@RolesAllowed({"ADMIN"})
 	public void createRestaurant(Restaurant restaurant) {
 		if (restaurant.getReservations() == null) 
 			restaurant.setReservations(new ArrayList<Reservation>());
@@ -49,6 +50,7 @@ public class RestaurantManager {
 		restaurantEventSrc.fire(restaurant);
 	}
 
+	@RolesAllowed({"ADMIN"})
 	public void deleteRestaurant(Restaurant restaurant) {
 		em.remove(em.merge(restaurant));
 		log.info("Restaurant: " + restaurant.getName()
@@ -56,6 +58,7 @@ public class RestaurantManager {
 		restaurantEventSrc.fire(restaurant);
 	}
 
+	@RolesAllowed({"MANAGER"})
 	public void updateRestaurant(Restaurant restaurant) {
 		em.merge(restaurant);
 		log.info("Restaurant: " + restaurant.getName()

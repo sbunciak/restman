@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
 
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
@@ -24,6 +25,7 @@ public class ReservationManager {
 	@Inject
 	private Logger log;
 
+	@RolesAllowed({"USER", "MANAGER"})
 	public void createReservation(Reservation reservation, User user, Restaurant restaurant) {
 		
 		user.getReservations().add(reservation);
@@ -43,6 +45,7 @@ public class ReservationManager {
 
 	}
 
+	@RolesAllowed({"USER", "MANAGER"})
 	public void removeReservation(Reservation reservation) {
 		Reservation attachedReserv = em.merge(reservation);
 		attachedReserv.getUser().getReservations().remove(attachedReserv);
@@ -53,6 +56,7 @@ public class ReservationManager {
 
 	}
 	
+	@RolesAllowed({"USER", "MANAGER"})
 	public void updateReservation(Reservation reservation) {
 		em.merge(reservation);
 		log.info("Reservation: " + reservation.getId() 
@@ -61,6 +65,7 @@ public class ReservationManager {
 				+ " " + reservation.getUser().getSecondName());
 	}
 
+	@RolesAllowed({"USER", "MANAGER"})
 	public void removeAllUserReservations(User user) {
 		for (Reservation reservation : user.getReservations()) {
 			removeReservation(reservation);
@@ -69,6 +74,7 @@ public class ReservationManager {
 				+ user.getFirstName() + " " + user.getSecondName());
 	}
 	
+	@RolesAllowed({"MANAGER"})
 	public void removeAllRestaurantReservation(Restaurant restaurant) {
 		for (Reservation reservation : restaurant.getReservations()) {
 			removeReservation(reservation);
@@ -77,19 +83,23 @@ public class ReservationManager {
 				+ restaurant.getName());
 	}
 
+	@RolesAllowed({"USER", "MANAGER"})
 	public Reservation getReservation(int idReservation) {
 		return em.find(Reservation.class, idReservation);
 	}
 
+	@RolesAllowed({"USER", "MANAGER"})
 	public Collection<Reservation> getUserReservations(User user) {
 		return em.merge(user).getReservations();
 	}
 	
+	@RolesAllowed({"MANAGER"})
 	public Collection<Reservation> getRestaurantReservations(
 			Restaurant restaurant) {
 		return em.merge(restaurant).getReservations();
 	}
 	
+	@RolesAllowed({"MANAGER"})
 	public Collection<Reservation> getMenuItemReservations(
 			MenuItem menuItem) {
 		return em.merge(menuItem).getReservations();

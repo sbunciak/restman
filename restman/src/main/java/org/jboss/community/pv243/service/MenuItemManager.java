@@ -2,6 +2,8 @@ package org.jboss.community.pv243.service;
 
 import java.util.Collection;
 import java.util.logging.Logger;
+
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
@@ -21,18 +23,21 @@ public class MenuItemManager {
 	@Inject
 	private Logger log;
 
+	@RolesAllowed({"MANAGER"})
 	public void createMenuItem(MenuItem menuItem) {
 		em.persist(menuItem);
 		log.info("New menu item: " + menuItem.getName() 
 				+ " was created");
 	}
 	
+	@RolesAllowed({"MANAGER"})
 	public void updateMenuItem(MenuItem menuItem) {
 		em.merge(menuItem);
 		log.info("Menu item: " + menuItem.getName() 
 				+ " was edited");
 	}
 	
+	@RolesAllowed({"MANAGER"})
 	public void removeMenuItem(MenuItem menuItem) {
 		em.remove(em.merge(menuItem));
 		log.info("Menu item: " + menuItem.getName() 
@@ -47,6 +52,7 @@ public class MenuItemManager {
 		return em.merge(restaurant).getMenu();
 	}
 	
+	@RolesAllowed({"USER", "MANAGER"})
 	public Collection<MenuItem> getReservationMenu(Reservation reservation) {
 		return em.merge(reservation).getReservedMenu();
 	}
