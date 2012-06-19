@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   template="templates/UserTemplate.xhtml">
+   
+   <ui:define name="top">
+   		<h1>User registration</h1>
+   </ui:define>
+
+	<!-- <ui:define name="left">
+		<h:link value="Test" outcome="userSpace" />
+	</ui:define> -->
+	<ui:define name="content">
+      <h1>Login</h1>
+      	<form method="POST" action="j_security_check">
+			Email: <input type="text" name="j_username"/><br/>
+			Password: <input type="password" name="j_password"/><br/>
+			<input type="submit" value="Login"/>
+		</form>
+   </ui:define>
+</ui:composition>

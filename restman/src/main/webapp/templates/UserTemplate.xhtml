@@ -20,6 +20,9 @@
       </div>
       <div id="left">
       	 <ui:insert name="left">
+      	 	<h:form>
+      	 		<h:commandLink value="Logout" action="#{loginController.logout()}" />
+      	 	</h:form>
       	 	<h:outputLink value="#{request.contextPath}/index.jsf">Index</h:outputLink><br/>
       	 	<h:outputLink value="#{request.contextPath}/addUser.jsf">Add User</h:outputLink><br/>
       	 	<h:outputLink value="#{request.contextPath}/showRestaurants.jsf">Show Restaurants</h:outputLink><br/>
