@@ -16,6 +16,7 @@ import org.jboss.community.pv243.model.Reservation;
 import org.jboss.community.pv243.model.User;
 
 
+
 @Stateless
 @RequestScoped
 public class UserManager {
@@ -52,12 +53,14 @@ public class UserManager {
 		em.remove(em.merge(user));
 		log.info("User: name=" + user.getFirstName() + " " + user.getSecondName()
 				+ " was succesfully deleted");
+		userEventSrc.fire(user);
 	}
 	
-	@RolesAllowed({"USER"})
+	@RolesAllowed({"USER", "ADMIN"})
 	public void updateUser(User newUser) {
 		em.merge(newUser);
 		log.info("User: " + newUser + " was succesfully updated");
+		userEventSrc.fire(newUser);
 	}
 
 	@RolesAllowed({"ADMIN"})

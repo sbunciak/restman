@@ -1,7 +1,9 @@
 package org.jboss.community.pv243.controller;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
-import javax.enterprise.inject.Model;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -11,32 +13,64 @@ import javax.inject.Named;
 import org.jboss.community.pv243.model.Restaurant;
 import org.jboss.community.pv243.service.RestaurantManager;
 
-@Model
-public class RestaurantController {
+@Named
+@SessionScoped
+public class RestaurantController implements Serializable {
+
+	private static final long serialVersionUID = 8049789937694766621L;
+
 	@Inject
 	FacesContext facesContext;
 	
 	@Inject
-	RestaurantManager restaurantManager;
+	private RestaurantManager restaurantManager;
 	
-	private Restaurant restaurant;
+	private Restaurant newRestaurant;
+	
+	private boolean edit = false;
 	
 	@Produces
 	@Named
 	public Restaurant getRestaurant(){
-		return restaurant;
+		return newRestaurant;
 	}
 	
 	public void registerRestaurant(){
-		restaurantManager.createRestaurant(restaurant);
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registration successful", "Restauration was successfuly registered"));
-		restaurant = new Restaurant();
+		restaurantManager.createRestaurant(newRestaurant);
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+				"Registration successful", "Restauration was successfuly registered"));
+		newRestaurant = new Restaurant();
+		initRestaurant();
 	}
 	
+	public void deleteRestaurant(Restaurant newRestaurant){
+		restaurantManager.deleteRestaurant(newRestaurant);
+		initRestaurant();
+	}
+	
+	public void editRestaurant(Restaurant restaurant){
+		newRestaurant = restaurantManager.getRestaurant((restaurant.getId()));
+		edit = true;
+	}
+	
+	public void save() {
+		restaurantManager.updateRestaurant(newRestaurant);
+		edit = false;
+		initRestaurant();
+	}
+	
+	public void clear() {
+		edit = false;
+		initRestaurant();
+	}
+	
+	public boolean isEdit() {
+		return edit;
+	}
 	
 	@PostConstruct
-	public void initRestauratn(){
-		restaurant = new Restaurant();
+	public void initRestaurant(){
+		newRestaurant = new Restaurant();
 	}
 	
 }

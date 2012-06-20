@@ -1,7 +1,7 @@
 package org.jboss.community.pv243.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
@@ -59,7 +59,7 @@ public class RestaurantManager {
 		restaurantEventSrc.fire(restaurant);
 	}
 
-	@RolesAllowed({"MANAGER"})
+	@RolesAllowed({"MANAGER", "ADMIN"})
 	public void updateRestaurant(Restaurant restaurant) {
 		em.merge(restaurant);
 		log.info("Restaurant: " + restaurant.getName()
@@ -71,7 +71,7 @@ public class RestaurantManager {
 		return em.find(Restaurant.class, id);
 	}
 
-	public Collection<Restaurant> getAllRestaurants() {
+	public List<Restaurant> getAllRestaurants() {
 		TypedQuery<Restaurant> query = em.createNamedQuery(
 				"Restaurant.findAll", Restaurant.class);
 		return query.getResultList();

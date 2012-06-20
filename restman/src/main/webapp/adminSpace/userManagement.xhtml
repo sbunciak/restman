@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="../templates/UserTemplate.xhtml">
+
+	<ui:define name="top">
+		<h1>Admin</h1>
+	</ui:define>
+	<ui:define name="content">
+		<h1>Users management</h1>
+		<h:form rendered="#{not empty users}" styleClass="simpletablestyle">
+			<h:dataTable var="_user" value="#{users}">
+				<h:column>
+					<f:facet name="header">mail</f:facet>
+                #{_user.email}
+        		</h:column>
+				<h:column>
+					<f:facet name="header">pass</f:facet>
+                #{_user.password}
+        		</h:column>
+				<h:column>
+					<f:facet name="header">first name</f:facet>
+                #{_user.firstName}
+         		</h:column>
+				<h:column>
+					<f:facet name="header">second name</f:facet>
+                #{_user.secondName}
+         		</h:column>
+				<h:column>
+					<f:facet name="header">phone number</f:facet>
+                #{_user.phoneNumber}
+         		</h:column>
+				<h:column>
+					<h:commandButton value="Edit"
+						action="#{userController.editUser(_user)}" />
+				</h:column>
+				<h:column>
+					<h:commandButton value="Delete"
+						action="#{userController.deleteUser(_user)}" />
+				</h:column>
+			</h:dataTable>
+		</h:form>
+
+		<h:panelGroup rendered="#{empty users}">
+			<p>No users found!</p>
+		</h:panelGroup>
+
+		<h:form styleClass="simpletablestyle">
+			<h2>
+				<h:panelGrid rendered="#{!userController.edit}">Register new user </h:panelGrid>
+				<h:panelGrid rendered="#{userController.edit}">Edit user </h:panelGrid>
+			</h2>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="email" value="Email:" />
+				<h:inputText id="email" value="#{newUser.email}" />
+				<h:outputLabel for="password" value="Password:" />
+				<h:inputSecret id="password" value="#{newUser.password}" />
+				<h:outputLabel for="firstName" value="Jmeno:" />
+				<h:inputText id="firstName" value="#{newUser.firstName}" />
+				<h:outputLabel for="secondName" value="Second name:" />
+				<h:inputText id="secondName" value="#{newUser.secondName}" />
+				<h:outputLabel for="phoneNumber" value="Phone:" />
+				<h:inputText id="phoneNumber" value="#{newUser.phoneNumber}" />
+			</h:panelGrid>
+			<h:commandButton rendered="#{!userController.edit}" type="submit"
+				action="#{userController.registerUser}" value="Register" />
+			<h:commandButton rendered="#{userController.edit}" type="submit"
+				action="#{userController.save}" value="Save" />
+			<h:commandButton action="#{userController.clear}" value="Clear" />
+		</h:form>
+
+	</ui:define>
+</ui:composition>

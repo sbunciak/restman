@@ -13,7 +13,6 @@ import javax.inject.Named;
 import org.jboss.community.pv243.model.User;
 import org.jboss.community.pv243.service.UserManager;
 
-
 @RequestScoped
 public class UserListProducer {
 
@@ -34,7 +33,6 @@ public class UserListProducer {
 	}
 	
 	public void onUserListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final User user){
-		System.out.println("Test");
 		initiateUsers();
 	}
 	

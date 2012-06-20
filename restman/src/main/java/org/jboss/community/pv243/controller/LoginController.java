@@ -1,10 +1,8 @@
 package org.jboss.community.pv243.controller;
 
-import javax.annotation.security.RolesAllowed;
 import javax.enterprise.inject.Model;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.security.auth.login.LoginContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
