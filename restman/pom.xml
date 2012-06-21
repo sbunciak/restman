@@ -178,6 +178,11 @@
 			<version>1.13-b01</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<version>3.5.6-Final</version>
+		</dependency>
 	</dependencies>
 
 	<build>
