@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   template="../templates/UserTemplate.xhtml">
+   
+   <ui:define name="top">
+   		<h1>Edit personal information</h1>
+   </ui:define>
+   <ui:define name="content">
+      <h1>Test</h1>
+
+      <div>
+         <p>You have successfully deployed a Java EE 6 web application.</p>
+         <h3>Your application can run on:</h3>
+         <img src="../resources/gfx/dualbrand_as7eap.png"/>
+      </div>
+
+		<h:form id="test">
+			<h2>Add reservation</h2>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="firstName" value="Jmeno:" />
+				<h:inputText id="firstName" value="#{newUser.firstName}" />
+				<h:outputLabel for="secondName" value="Second name:"/>
+		        <h:inputText id="secondName" value="#{newUser.secondName}" />
+		        <h:outputLabel for="phoneNumber" value="Phone Number:"/>
+		        <h:inputText id="phoneNumber" value="#{newUser.phoneNumber}" />
+		        
+            </h:panelGrid>
+            <h:commandButton action="#{userController.registerUser}" value="Register" />
+			
+		</h:form>
+		<h:form rendered="#{not empty reservationController.getUserReservations()}"
+			styleClass="simpletablestyle">
+			<h:dataTable var="_reservation" value="#{reservationController.getUserReservations()}">
+				<h:column>
+					<f:facet name="header">User</f:facet>
+                #{_reservation.user}
+         		</h:column>
+				<h:column>
+					<f:facet name="header">Restaurant</f:facet>
+                #{_reservation.restaurant}
+         		</h:column>
+         		<h:column>
+					<f:facet name="header">Date</f:facet>
+                #{_reservation.time}
+         		</h:column>
+				<h:column>
+					<f:facet name="header">Menu</f:facet>
+                #{_reservation.reservedMenu}
+         		</h:column>
+				<h:column>
+					<f:facet name="header">Table</f:facet>
+                #{_reservation.tableNumber}
+         		</h:column>
+				<h:column>
+					<f:facet name="header">Seats</f:facet>
+                #{_reservation.seats}
+         		</h:column>
+				<h:column>
+					<h:commandButton value="Edit"
+						action="#{reservationController.editReservation(_reservation)}" />
+				</h:column>
+				<h:column>
+					<h:commandButton value="Delete"
+						action="#{reservationController.deleteReservation(_reservation)}" />
+				</h:column>
+			</h:dataTable>
+		</h:form>
+		
+		<h:panelGroup rendered="#{reservationController.getUserReservations()}">
+			<p>No restaurants found!</p>
+		</h:panelGroup>
+   </ui:define>
+</ui:composition>

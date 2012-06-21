@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="../templates/UserTemplate.xhtml">
+
+	<ui:define name="top">
+		<h1>Edit personal information</h1>
+	</ui:define>
+	<ui:define name="content">
+		
+		<h:form id="test">
+			<h2>Edit form</h2>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="email" value="Email:" />
+				<h:inputText id="email" value="#{newUser.email}" />
+				<h:outputLabel for="pwd" value="Password:" />
+				<h:inputText id="pwd" value="#{newUser.password}" />
+				<h:outputLabel for="firstName" value="Name:" />
+				<h:inputText id="firstName" value="#{newUser.firstName}" />
+				<h:outputLabel for="secondName" value="Second name:" />
+				<h:inputText id="secondName" value="#{newUser.secondName}" />
+				<h:outputLabel for="phoneNumber" value="Phone Number:" />
+				<h:inputText id="phoneNumber" value="#{newUser.phoneNumber}" />
+
+			</h:panelGrid>
+			<h:commandButton action="#{userController.editUser}" value="Update" />
+
+		</h:form>
+	</ui:define>
+</ui:composition>

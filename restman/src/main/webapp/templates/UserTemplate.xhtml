@@ -22,8 +22,8 @@
       	 <ui:insert name="left">
       	 	
       	 	<h:form>
-      	 	<h:commandLink value="Login" action="#{loginController.login()}" rendered="#{!loginController.logged}"/>
-      	 		<h:commandLink value="Logout" action="#{loginController.logout()}" rendered="#{loginController.logged}"/>
+      	 	<h:commandLink value="Login" action="#{loginController.login}" rendered="#{!loginController.logged}"/>
+      	 		<h:commandLink value="Logout" action="#{loginController.logout}" rendered="#{loginController.logged}"/>
       	 	</h:form>
       	 	<br />
       	 	<br />
@@ -31,7 +31,7 @@
       	 	<h:outputLink value="#{request.contextPath}/showRestaurants.jsf">Show Restaurants</h:outputLink><br/>
       	 	<h:panelGroup layout="block" rendered="#{loginController.user}">
       	 		<h:outputLink value="#{request.contextPath}/userSpace/editInfo.jsf">Edit User Info</h:outputLink><br/>
-      	 		<h:outputLink value="#{request.contextPath}/userSpace/viewRestaurants.jsf">View Restaurants</h:outputLink><br/>
+      	 		<h:outputLink value="#{request.contextPath}/userSpace/manageReservations.jsf">Manage Reservations</h:outputLink><br/>
       	 	</h:panelGroup>
       	 	<h:panelGroup layout="block" rendered="#{loginController.manager}">
       	 		<h:outputLink value="#{request.contextPath}/managerSpace/editInfo.jsf">Edit Restaurant Info</h:outputLink><br/>
