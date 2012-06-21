@@ -14,18 +14,18 @@
 			<h2>Edit form</h2>
 			<h:panelGrid columns="2">
 				<h:outputLabel for="email" value="Email:" />
-				<h:inputText id="email" value="#{newUser.email}" />
+				<h:inputText id="email" value="#{loggedUser.email}" />
 				<h:outputLabel for="pwd" value="Password:" />
-				<h:inputText id="pwd" value="#{newUser.password}" />
+				<h:inputText id="pwd" value="#{loggedUser.password}" />
 				<h:outputLabel for="firstName" value="Name:" />
-				<h:inputText id="firstName" value="#{newUser.firstName}" />
+				<h:inputText id="firstName" value="#{loggedUser.firstName}" />
 				<h:outputLabel for="secondName" value="Second name:" />
-				<h:inputText id="secondName" value="#{newUser.secondName}" />
+				<h:inputText id="secondName" value="#{loggedUser.secondName}" />
 				<h:outputLabel for="phoneNumber" value="Phone Number:" />
-				<h:inputText id="phoneNumber" value="#{newUser.phoneNumber}" />
+				<h:inputText id="phoneNumber" value="#{loggedUser.phoneNumber}" />
 
 			</h:panelGrid>
-			<h:commandButton action="#{userController.editUser}" value="Update" />
+			<h:commandButton action="#{userController.updateUser(loggedUser)}" value="Update" />
 
 		</h:form>
 	</ui:define>

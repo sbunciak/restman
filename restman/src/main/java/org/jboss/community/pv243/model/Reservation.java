@@ -17,6 +17,9 @@ import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 /**
  * Entity implementation class for Entity: Reservation
  *
@@ -51,12 +54,12 @@ public class Reservation implements Serializable {
 					referencedColumnName="id_menu_item")
 		}
 	)
+	// TODO: @LazyCollection(LazyCollectionOption.FALSE)
 	private Collection<MenuItem> reservedMenu;
 	
-	@Future
+	//@Future
 	private Date time;
 	
-	// TODO: table management, number of available seats, tables, etc.
 	@Column(name="table_number")
 	private int tableNumber;
 	

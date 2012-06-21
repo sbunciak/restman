@@ -1,8 +1,10 @@
 package org.jboss.community.pv243.controller;
 
 import javax.enterprise.inject.Model;
+import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,11 +20,8 @@ public class LoginController {
 	FacesContext facesContext;
 	
 	@Inject
-	UserManager usermanager;
-	
-	
-	User loggedUser;
-	
+	UserManager manager;
+		
 	public void logout(){
 		//facesContext.getExternalContext().getSessionMap().put("sourcePageForLogin", facesContext.getExternalContext().getRequestPathInfo())
 		facesContext.getExternalContext().invalidateSession();
@@ -73,4 +72,9 @@ public class LoginController {
 		return false;
 	}
 	
+	@Produces
+	@Named
+	public User getLoggedUser() {
+		return manager.authUser(facesContext.getExternalContext().getUserPrincipal().getName());
+	}
 }

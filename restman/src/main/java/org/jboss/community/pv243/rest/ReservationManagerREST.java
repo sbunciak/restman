@@ -2,9 +2,9 @@ package org.jboss.community.pv243.rest;
 
 import java.util.Collection;
 
+import javax.annotation.security.PermitAll;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -13,7 +13,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.jboss.community.pv243.model.Reservation;
@@ -55,26 +54,15 @@ public class ReservationManagerREST {
 	@Inject
 	RestaurantManager restaurantManager;
 
-	// TODO: implement authentication, secure connection
-
 	@PUT
-	@Consumes(MediaType.TEXT_XML)
-	public void createReservation(@QueryParam("restaurant") int restaurant_id,
-			@QueryParam("user") int user_id, Reservation reservation)
-			throws Exception {
-
-		Restaurant restaurant = restaurantManager.getRestaurant(restaurant_id);
-		User user = userManager.getUser(user_id);
-
-		if (user != null && restaurant != null) {
-			manager.createReservation(reservation, user, restaurant);
-		} else {
-			throw new IllegalArgumentException();
-		}
+	@Consumes(MediaType.APPLICATION_XML)
+	public void createReservation(Restaurant restaurant, User user,
+			Reservation reservation) {
+		manager.createReservation(reservation, user, restaurant);
 	}
 
 	@POST
-	@Consumes(MediaType.TEXT_XML)
+	@Consumes(MediaType.APPLICATION_XML)
 	public void updateReservation(Reservation r) {
 		manager.updateReservation(r);
 	}
@@ -87,20 +75,21 @@ public class ReservationManagerREST {
 
 	@DELETE
 	@Path("/user/{id}")
-	public void removeAllReservations(@PathParam("id") int user_id) {
+	public void removeAllUserReservations(@PathParam("id") int user_id) {
 		manager.removeAllUserReservations(userManager.getUser(user_id));
 	}
 
 	@GET
 	@Path("/{id}")
-	@Produces(MediaType.TEXT_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	@PermitAll
 	public Reservation getReservation(@PathParam("id") int id) {
 		return manager.getReservation(id);
 	}
 
 	@GET
 	@Path("/user/{id}")
-	@Produces(MediaType.TEXT_XML)
+	@Produces(MediaType.APPLICATION_XML)
 	public Collection<Reservation> getUserReservations(
 			@PathParam("id") int user_id) {
 		return manager.getUserReservations(userManager.getUser(user_id));
@@ -108,15 +97,9 @@ public class ReservationManagerREST {
 
 	@GET
 	@Path("/restaurant/{id}")
-	@Produces(MediaType.TEXT_XML)
+	@Produces(MediaType.APPLICATION_XML)
 	public Collection<Reservation> getRestaurantReservations(
 			@PathParam("id") int id) {
 		return restaurantManager.getRestaurant(id).getReservations();
 	}
 }
-
-
-
-
-
-

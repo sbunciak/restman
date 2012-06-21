@@ -36,8 +36,7 @@ public class UserManagerTest {
 		User newUser = createTestUser();
 		userManager.registerUser(newUser);
 
-		User dbUser = userManager.authUser(newUser.getEmail(),
-				newUser.getPassword());
+		User dbUser = userManager.authUser(newUser.getEmail());
 
 		assertTrue(newUser.equals(dbUser));
 	}

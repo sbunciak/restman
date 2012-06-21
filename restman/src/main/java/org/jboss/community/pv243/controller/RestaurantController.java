@@ -1,6 +1,7 @@
 package org.jboss.community.pv243.controller;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -73,4 +74,7 @@ public class RestaurantController implements Serializable {
 		newRestaurant = new Restaurant();
 	}
 	
+	public List<Restaurant> getAllRestaurants() {
+		return restaurantManager.getAllRestaurants();
+	}
 }

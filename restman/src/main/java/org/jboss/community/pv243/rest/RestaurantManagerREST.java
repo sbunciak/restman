@@ -36,27 +36,27 @@ public class RestaurantManagerREST {
 
 	@GET
 	@Path("/{id}")
-	@Produces(MediaType.TEXT_XML)
+	@Produces(MediaType.APPLICATION_XML)
 	public Restaurant getRestaurant(@PathParam("id") int id) {
 		return manager.getRestaurant(id);
 	}
 
 	@GET
-	@Produces(MediaType.TEXT_XML)
+	@Produces(MediaType.APPLICATION_XML)
 	public Collection<Restaurant> getAllRestaurants() {
 		return manager.getAllRestaurants();
 	}
 
 	@GET
 	@Path("/{id}/menu")
-	@Produces(MediaType.TEXT_XML)
+	@Produces(MediaType.APPLICATION_XML)
 	public Collection<MenuItem> getMenuOfRestaurant(@PathParam("id") int id) {
 		return manager.getRestaurant(id).getMenu();
 	}
 
 	@GET
 	@Path("/{id}/reservations")
-	@Produces(MediaType.TEXT_XML)
+	@Produces(MediaType.APPLICATION_XML)
 	public Collection<Reservation> getReservationsOfRestaurant(
 			@PathParam("id") int id) {
 		return manager.getRestaurant(id).getReservations();
