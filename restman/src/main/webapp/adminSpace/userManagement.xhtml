@@ -52,6 +52,7 @@
 				<h:panelGrid rendered="#{!userController.edit}">Register new user </h:panelGrid>
 				<h:panelGrid rendered="#{userController.edit}">Edit user </h:panelGrid>
 			</h2>
+			<h:messages />
 			<h:panelGrid columns="2">
 				<h:outputLabel for="email" value="Email:" />
 				<h:inputText id="email" value="#{newUser.email}" />
