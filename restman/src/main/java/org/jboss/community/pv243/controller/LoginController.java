@@ -1,15 +1,12 @@
 package org.jboss.community.pv243.controller;
 
 import javax.enterprise.inject.Model;
-import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.jboss.community.pv243.model.User;
 import org.jboss.community.pv243.service.UserManager;
 
 @Model
@@ -73,11 +70,5 @@ public class LoginController {
 		}
 		return false;
 	}
-
-	@Produces
-	@Named
-	public User getLoggedUser() {
-		return manager.authUser(facesContext.getExternalContext()
-				.getUserPrincipal().getName());
-	}
+	
 }

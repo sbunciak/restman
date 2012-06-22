@@ -68,7 +68,4 @@ public class UserController implements Serializable {
 		newUser = new User();
 	}
 	
-	public void updateUser(User u) {
-		userManager.updateUser(u);
-	}
 }

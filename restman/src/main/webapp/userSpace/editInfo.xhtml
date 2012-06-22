@@ -24,10 +24,11 @@
 				<h:inputText id="secondName" value="#{loggedUser.secondName}" />
 				<h:outputLabel for="phoneNumber" value="Phone Number:" />
 				<h:inputText id="phoneNumber" value="#{loggedUser.phoneNumber}" />
-
 			</h:panelGrid>
-			<h:commandButton action="#{userController.updateUser(loggedUser)}" value="Update" />
-
+			<h:commandButton type="submit" action="#{editUserController.updateUser}" value="Update" />
+			<h2>
+				<h:panelGrid rendered="#{editUserController.edit}">Edit was successful </h:panelGrid>
+			</h2>
 		</h:form>
 	</ui:define>
 </ui:composition>
