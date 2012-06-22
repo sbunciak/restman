@@ -5,76 +5,79 @@ import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.jboss.community.pv243.model.User;
 import org.jboss.community.pv243.service.UserManager;
 
-
 @Model
 public class LoginController {
-	
+
 	@Inject
 	FacesContext facesContext;
-	
+
 	@Inject
 	UserManager manager;
-		
-	public void logout(){
-		//facesContext.getExternalContext().getSessionMap().put("sourcePageForLogin", facesContext.getExternalContext().getRequestPathInfo())
-		facesContext.getExternalContext().invalidateSession();
-		HttpServletRequest request = (HttpServletRequest)facesContext.getExternalContext().getRequest();
+
+	public void logout() {
 		try {
-			request.logout();
-		} catch (ServletException e) {
-			e.printStackTrace();
-		}
+			HttpSession session = (HttpSession) facesContext
+					.getExternalContext().getSession(true);
+			session.invalidate();
+			facesContext.getExternalContext().redirect("/restman");
+		} catch (Exception e) {
+			throw new SecurityException(e);
+		} 
 	}
 
-	public void login(){
-		HttpServletRequest request = (HttpServletRequest)facesContext.getExternalContext().getRequest();
-		HttpServletResponse response = (HttpServletResponse)facesContext.getExternalContext().getResponse();
+	public void login() {
+		HttpServletRequest request = (HttpServletRequest) facesContext
+				.getExternalContext().getRequest();
+		HttpServletResponse response = (HttpServletResponse) facesContext
+				.getExternalContext().getResponse();
 		try {
 			if (!request.authenticate(response)) {
 				facesContext.responseComplete();
-				System.out.println(facesContext.getExternalContext().getRemoteUser()); 
+				System.out.println(facesContext.getExternalContext()
+						.getRemoteUser());
 			}
 		} catch (Exception e) { // may throw ServletException or IOException
-		    e.printStackTrace();
+			e.printStackTrace();
 		}
 		return;
 	}
-	
-	public boolean isLogged(){
+
+	public boolean isLogged() {
 		return facesContext.getExternalContext().getUserPrincipal() != null;
 	}
-	
-	public boolean isManager(){
-		if (facesContext.getExternalContext().isUserInRole("MANAGER")){
+
+	public boolean isManager() {
+		if (facesContext.getExternalContext().isUserInRole("MANAGER")) {
 			return true;
 		}
 		return false;
 	}
-	
-	public boolean isUser(){
-		if (facesContext.getExternalContext().isUserInRole("USER")){
+
+	public boolean isUser() {
+		if (facesContext.getExternalContext().isUserInRole("USER")) {
 			return true;
 		}
 		return false;
 	}
-	
-	public boolean isAdmin(){
-		if (facesContext.getExternalContext().isUserInRole("ADMIN")){
+
+	public boolean isAdmin() {
+		if (facesContext.getExternalContext().isUserInRole("ADMIN")) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	@Produces
 	@Named
 	public User getLoggedUser() {
-		return manager.authUser(facesContext.getExternalContext().getUserPrincipal().getName());
+		return manager.authUser(facesContext.getExternalContext()
+				.getUserPrincipal().getName());
 	}
 }
