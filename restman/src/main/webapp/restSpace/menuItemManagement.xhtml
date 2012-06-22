@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="../templates/UserTemplate.xhtml">
+
+	<ui:define name="top">
+		<h1>Manager</h1>
+	</ui:define>
+	<ui:define name="content">
+	#{loginController.logged}
+		<h1>Manu Item Management</h1>
+		<h:form rendered="#{not empty menuItems}"
+			styleClass="simpletablestyle">
+			<h:dataTable var="_menuItem" value="#{menuItems}">
+				<h:column>
+					<f:facet name="header">Name</f:facet>
+                #{_menuItem.name}
+         		</h:column>
+				<h:column>
+					<f:facet name="header">Weight</f:facet>
+                #{_menuItem.weight}
+         		</h:column>
+				<h:column>
+					<f:facet name="header">Price</f:facet>
+                #{_menuItem.prize}
+         		</h:column>
+				<h:column>
+					<h:commandButton value="Edit"
+						action="#{menuController.editMenuItem(_menuItem)}" />
+				</h:column>
+				<h:column>
+					<h:commandButton value="Delete"
+						action="#{menuController.deleteMenuItem(_menuItem)}" />
+				</h:column>
+			</h:dataTable>
+		</h:form>
+		
+		<h:panelGroup rendered="#{empty menuItems}">
+			<p>No restaurants found!</p>
+		</h:panelGroup>
+
+		<h:form styleClass="simpletablestyle">
+			<h2>
+				<h:panelGrid rendered="#{!menuController.edit}">Register new restaurant </h:panelGrid>
+				<h:panelGrid rendered="#{menuController.edit}">Edit restaurant </h:panelGrid>
+			</h2>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="name" value="Name:" />
+				<h:inputText id="name" value="#{menuItem.name}" />
+				<h:outputLabel for="weight" value="Weight:" />
+				<h:inputText id="weight" value="#{menuItem.weight}" />
+				<h:outputLabel for="prize" value="Price:" />
+				<h:inputText id="prize" value="#{menuItem.prize}" />
+				
+			</h:panelGrid>
+			<h:commandButton rendered="#{!menuController.edit}"
+				action="#{menuController.createMenuItem()}" value="Create" />
+			<h:commandButton rendered="#{menuController.edit}"
+				action="#{menuController.save}" value="Save" />
+			<h:commandButton action="#{menuController.clear}" value="Clear" />
+		</h:form>
+	</ui:define>
+</ui:composition>

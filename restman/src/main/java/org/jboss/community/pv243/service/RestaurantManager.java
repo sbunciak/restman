@@ -70,6 +70,12 @@ public class RestaurantManager {
 	public Restaurant getRestaurant(int id) {
 		return em.find(Restaurant.class, id);
 	}
+	
+	public Restaurant getRestaurantByEmail(String email){
+		TypedQuery<Restaurant> query = em.createNamedQuery("Restaurant.getByEmail", Restaurant.class);
+		query.setParameter("email", email);
+		return query.getSingleResult();
+	}
 
 	public List<Restaurant> getAllRestaurants() {
 		TypedQuery<Restaurant> query = em.createNamedQuery(

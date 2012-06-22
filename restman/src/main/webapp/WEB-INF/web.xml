@@ -11,12 +11,20 @@
  		<role-name>USER</role-name>
  	</auth-constraint>
  </security-constraint>
+  <security-constraint>
+ 	<web-resource-collection>
+ 		<web-resource-name>restaurant</web-resource-name>
+ 		<url-pattern>/restSpace/*</url-pattern>
+ 	</web-resource-collection>
+ 	<auth-constraint>
+ 		<role-name>MANAGER</role-name>
+ 	</auth-constraint>
+ </security-constraint>
  <login-config>
- 	<auth-method>BASIC</auth-method>
- 	<!-- <form-login-config>
-		<form-login-page>/login.jsf</form-login-page>
-		<form-error-page>/index.jsf</form-error-page>
-	</form-login-config>
-	 -->
+  	<auth-method>BASIC</auth-method>
+<!--  	<form-login-config> -->
+<!-- 		<form-login-page>/login.jsf</form-login-page> -->
+<!-- 		<form-error-page>/index.jsf</form-error-page> -->
+<!-- 	</form-login-config> -->
  </login-config>
 </web-app>

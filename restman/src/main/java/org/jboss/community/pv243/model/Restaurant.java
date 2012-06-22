@@ -25,6 +25,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 @XmlRootElement
 @NamedQueries({
 		@NamedQuery(name = "Restaurant.findAll", query = "SELECT r FROM Restaurant r"),
+		@NamedQuery(name = "Restaurant.getByEmail", query = "SELECT r FROM Restaurant r WHERE r.email = :email"),
 		@NamedQuery(name = "Restaurant.auth", query = "SELECT r FROM Restaurant r WHERE r.email = :email AND r.password = :password") })
 public class Restaurant extends AbstractUser implements Serializable {
 

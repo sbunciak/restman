@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -23,11 +24,15 @@ public class MenuItemManager {
 	@Inject
 	private Logger log;
 
+	@Inject
+	private Event<MenuItem> menuItemEventSrc;
+	
 	@RolesAllowed({"MANAGER"})
 	public void createMenuItem(MenuItem menuItem) {
 		em.persist(menuItem);
 		log.info("New menu item: " + menuItem.getName() 
 				+ " was created");
+		menuItemEventSrc.fire(menuItem);
 	}
 	
 	@RolesAllowed({"MANAGER"})
@@ -35,6 +40,7 @@ public class MenuItemManager {
 		em.merge(menuItem);
 		log.info("Menu item: " + menuItem.getName() 
 				+ " was edited");
+		menuItemEventSrc.fire(menuItem);
 	}
 	
 	@RolesAllowed({"MANAGER"})
@@ -42,6 +48,7 @@ public class MenuItemManager {
 		em.remove(em.merge(menuItem));
 		log.info("Menu item: " + menuItem.getName() 
 				+ " was removed");
+		menuItemEventSrc.fire(menuItem);
 	}
 	
 	public MenuItem getMenuItem(int idMenuItem) {
