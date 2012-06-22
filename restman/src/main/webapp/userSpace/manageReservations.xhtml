@@ -50,11 +50,16 @@
 		</h:form>
 		<h:form id="test">
 			<h2>Add reservation</h2>
+			<h:messages />
 			<h:panelGrid columns="2">
 				<h:outputLabel for="restaurant" value="Restaurant:" />
 				<h:selectOneMenu id="restaurant" value="#{reservation.restaurant}">
 					<f:selectItems value="#{restaurantController.allRestaurants}" var="_restaurant" itemValue="#{_restaurant}" itemLabel="#{_restaurant.name}" />
 				</h:selectOneMenu>
+				<h:outputLabel for="date" value="Date:"/>
+		        <h:inputText id="date" value="#{reservation.time}">
+		        	<f:convertDateTime pattern="dd.MM.yyyy" />
+		        </h:inputText>
 		        <h:outputLabel for="table" value="Table number:"/>
 		        <h:inputText id="table" value="#{reservation.tableNumber}" />
 		        <h:outputLabel for="seats" value="Seats:"/>
@@ -62,10 +67,7 @@
             </h:panelGrid>
             <!-- 
             TODO:
-            <h:outputLabel for="date" value="Date:"/>
-		        <h:inputText id="date" value="#{reservation.time}">
-		        	<f:convertDateTime pattern="dd.MM.yyyy" />
-		        </h:inputText>
+            
             <h:outputLabel for="menu" value="Menu:"/>
 		    <h:inputText id="menu" value="#{reservation.reservedMenu}" />
 		     -->
