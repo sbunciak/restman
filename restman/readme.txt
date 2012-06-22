@@ -30,6 +30,9 @@ Since RESTMan is a Secured application, you need to change the configuration ($J
                         </login-module>
                     </authentication>
                 </security-domain>
+                
+As you may notice, RESTMan security domain uses datasource "restmanDS". To change the value of datasource you would like the application work with, you
+need to edit persistence.xml and standalone.xml as well.
 
 Deploying the application
 -------------------------
