@@ -37,10 +37,10 @@ public class MenuItem implements Serializable {
 	@ManyToMany(mappedBy="reservedMenu")
 	private Collection<Reservation> reservations;
 	
-	@NotNull
+	@NotNull(message="Please enter the name of menu item")
 	@NotEmpty
-	@Size(min = 1, max = 25)
-	@Pattern(regexp = "[A-Za-z ]*", message = "must contain only letters and spaces")
+	@Size(min = 1, max = 25, message="Length of menu item's must be between 1 and 25 ")
+	@Pattern(regexp = "[A-Za-z ]*", message = "Name of menu item must contain only letters and spaces")
 	private String name;
 	
 	@Min(1)

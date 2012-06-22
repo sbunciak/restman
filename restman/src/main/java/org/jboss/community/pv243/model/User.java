@@ -31,17 +31,18 @@ public class User extends AbstractUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Column(name = "first_name")
-	@Size(min = 1, max = 25)
-	@Pattern(regexp = "[A-Za-z ]*", message = "must contain only letters and spaces")
+	@Size(min = 1, max = 25, message="Length of first name must be between 1 and 25 ")
+	@Pattern(regexp = "[A-Za-z ]*", message = "First name must contain only letters and spaces")
 	private String firstName;
 
 	@Column(name = "second_name")
-	@Size(min = 1, max = 25)
-	@Pattern(regexp = "[A-Za-z ]*", message = "must contain only letters and spaces")
+	@Size(min = 1, max = 25, message="Length of second name must be between 1 and 25 ")
+	@Pattern(regexp = "[A-Za-z ]*", message = "First name must contain only letters and spaces")
 	private String secondName;
 
-	@NotNull
-	@Digits(fraction = 0, integer = 12)
+	@Column(name = "phone_number")
+	@NotNull(message="Please enter your phone number")
+	@Digits(fraction = 0, integer = 12, message="Phone number must contain only digits")
 	private BigDecimal phoneNumber;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")

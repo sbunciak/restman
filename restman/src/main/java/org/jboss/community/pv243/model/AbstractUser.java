@@ -23,20 +23,16 @@ public abstract class AbstractUser implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@NotNull
+	@Column(unique=true)
+	@NotNull(message="Please enter you email")
 	@Email
-	@Column(name="email",unique=true)
 	private String email;
 	
-	@NotNull
-	@Column(name="password")
+	@NotNull(message="Please enter your password")
 	private String password;
 	
 	@NotNull
-	@Column(name="role")
 	private String role;
-
-	
 	
 	public String getRole() {
 		return role;

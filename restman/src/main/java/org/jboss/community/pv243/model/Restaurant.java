@@ -30,16 +30,14 @@ public class Restaurant extends AbstractUser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@NotNull
+	@NotNull(message="Please enter the name of restaurant")
 	@Size(min = 1, max = 25)
 	private String name;
 
-	@NotNull
-	@NotEmpty
+	@NotEmpty(message="Please enter the information about restaurant")
 	private String information;
 
-	@NotNull
-	@NotEmpty
+	@NotEmpty(message="Please enter the address of restaurant")
 	private String address;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "restaurant")
