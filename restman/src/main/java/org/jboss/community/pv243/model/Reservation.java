@@ -13,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -58,7 +57,6 @@ public class Reservation implements Serializable {
 	)
 	private Collection<MenuItem> reservedMenu;
 	
-	@Future
 	@NotNull(message="Please enter the date of reservation")
 	private Date time;
 	
