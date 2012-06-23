@@ -36,36 +36,36 @@
          		</h:column>
 				<h:column>
 					<h:commandButton value="Edit"
-						action="#{reservationController.editReservation(_reservation)}" />
+						action="#{userReservationsController.editReservation(_reservation)}" />
 				</h:column>
 				<h:column>
 					<h:commandButton value="Delete"
-						action="#{reservationController.deleteReservation(_reservation)}" />
+						action="#{userReservationsController.deleteReservation(_reservation)}" />
 				</h:column>
 			</h:dataTable>
 		</h:form>
 		<h:form id="test">
 			<h2>
-				<h:panelGrid rendered="#{!reservationController.edit}">Add reservation</h:panelGrid>
-				<h:panelGrid rendered="#{reservationController.edit}">Edit reservation</h:panelGrid>
+				<h:panelGrid rendered="#{!userReservationsController.edit}">Add reservation</h:panelGrid>
+				<h:panelGrid rendered="#{userReservationsController.edit}">Edit reservation</h:panelGrid>
 			</h2>
 			<h2></h2>
 			<h:messages />
 			<h:panelGrid columns="2">
-				<h:outputLabel for="restaurant" value="Restaurant:" rendered="#{!reservationController.edit}"/>
-				<h:selectOneMenu id="restaurant" value="#{newReservation.restaurant}" 
-					converter="#{restaurantConverter}" rendered="#{!reservationController.edit}" >					
+				<h:outputLabel for="restaurant" value="Restaurant:" rendered="#{!userReservationsController.edit}"/>
+				<h:selectOneMenu id="restaurant" value="#{userReservation.restaurant}" 
+					converter="#{userReservationsController}" rendered="#{!userReservationsController.edit}" >					
 					<f:selectItems value="#{restaurantController.allRestaurants}" 
 					var="_restaurant" itemValue="#{_restaurant}" itemLabel="#{_restaurant.name}" />
 				</h:selectOneMenu>
 				<h:outputLabel for="date" value="Date:"/>
-		        <h:inputText id="date" value="#{newReservation.time}">
+		        <h:inputText id="date" value="#{userReservation.time}">
 		        	<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
 		        </h:inputText>
 		        <h:outputLabel for="table" value="Table number:"/>
-		        <h:inputText id="table" value="#{newReservation.tableNumber}" />
+		        <h:inputText id="table" value="#{userReservation.tableNumber}" />
 		        <h:outputLabel for="seats" value="Seats:"/>
-		        <h:inputText id="seats" value="#{newReservation.seats}" />
+		        <h:inputText id="seats" value="#{userReservation.seats}" />
             </h:panelGrid>
             <!-- 
             TODO:
@@ -73,12 +73,12 @@
             <h:outputLabel for="menu" value="Menu:"/>
 		    <h:inputText id="menu" value="#{reservation.reservedMenu}" />
 		     -->
-		    <h:commandButton rendered="#{!reservationController.edit}" type="submit" immediate="true"
-				action="#{reservationController.registerReservation(loggedUser)}" 
+		    <h:commandButton rendered="#{!userReservationsController.edit}" 
+				action="#{userReservationsController.registerReservation}" 
 				value="Register" />
-			<h:commandButton rendered="#{reservationController.edit}" immediate="true" type="submit"
-				action="#{reservationController.save}" value="Save" />
-			<h:commandButton action="#{reservationController.clear}" value="Clear" />
+			<h:commandButton rendered="#{userReservationsController.edit}" 
+				action="#{userReservationsController.save}" value="Save" />
+			<h:commandButton action="#{userReservationsController.clear}" value="Clear" />
            
 		</h:form>
 		<h:panelGroup rendered="#{empty userReservations}">
