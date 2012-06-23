@@ -9,6 +9,8 @@ import javax.enterprise.event.Event;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+
 import org.jboss.community.pv243.model.MenuItem;
 import org.jboss.community.pv243.model.Reservation;
 import org.jboss.community.pv243.model.Restaurant;
@@ -45,7 +47,8 @@ public class MenuItemManager {
 	
 	@RolesAllowed({"MANAGER"})
 	public void removeMenuItem(MenuItem menuItem) {
-		em.remove(em.merge(menuItem));
+		MenuItem mergedMenuItem = em.merge(menuItem);
+		em.remove(mergedMenuItem);
 		log.info("Menu item: " + menuItem.getName() 
 				+ " was removed");
 		menuItemEventSrc.fire(menuItem);

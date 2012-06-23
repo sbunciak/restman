@@ -71,7 +71,13 @@ public class RestaurantController implements Serializable {
 	
 	@PostConstruct
 	public void initRestaurant(){
-		newRestaurant = new Restaurant();
+		if (facesContext.getExternalContext().getRequestServletPath().equals("/restSpace/editRestaurant.jsf")){
+			newRestaurant = restaurantManager.getRestaurantByEmail(facesContext.getExternalContext().getUserPrincipal().getName());
+			edit=true;
+		}else{
+			newRestaurant = new Restaurant();
+		}
+	
 	}
 	
 	public List<Restaurant> getAllRestaurants() {
