@@ -58,13 +58,21 @@ public class UserManager {
 	@RolesAllowed({"USER", "ADMIN"})
 	public void updateUser(User newUser) {
 		em.merge(newUser);
-		log.info("User: " + newUser + " was succesfully updated");
+		log.info("User: " + newUser.getFirstName() + " " + newUser.getSecondName()
+				+ " was succesfully updated");
 		userEventSrc.fire(newUser);
 	}
 
-	@RolesAllowed({"ADMIN"})
+	@RolesAllowed({"ADMIN", "USER"})
 	public User getUser(int id) {
 		return em.find(User.class, id);
+	}
+	
+	@RolesAllowed({"ADMIN", "USER"})
+	public User getUserByEmail(String email) {
+		TypedQuery<User> query = em.createNamedQuery("User.getByEmail", User.class);
+		query.setParameter("email", email);
+		return query.getSingleResult();
 	}
 
 	@RolesAllowed({"ADMIN"})
