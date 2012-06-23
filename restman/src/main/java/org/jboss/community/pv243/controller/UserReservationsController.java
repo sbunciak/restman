@@ -1,7 +1,7 @@
 package org.jboss.community.pv243.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
-import java.util.Collection;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -22,7 +22,7 @@ import org.jboss.community.pv243.service.UserManager;
 
 @Named
 @SessionScoped
-public class ReservationController implements Serializable, Converter{
+public class UserReservationsController implements Serializable, Converter{
 
 	private static final long serialVersionUID = -2801739162098295137L;
 
@@ -37,7 +37,7 @@ public class ReservationController implements Serializable, Converter{
 
 	private Reservation newReservation;
 	
-	private Restaurant restaurant;
+	private User user;
 
 	private boolean edit = false;
 	
@@ -48,28 +48,28 @@ public class ReservationController implements Serializable, Converter{
 	public Object getAsObject(FacesContext context, UIComponent component,
 			String value) {
 		int id = Integer.valueOf(value);
-		return userManager.getUser(id);
+		return restaurantManager.getRestaurant(id);
 	}
 
 	@Override
 	public String getAsString(FacesContext context, UIComponent component,
 			Object value) {
-		return String.valueOf(((User)value).getId());
+		return String.valueOf(((Restaurant)value).getId());
 	}
 
-	public Restaurant getLoggedRestaurant(){
-		if (!facesContext.getExternalContext().isUserInRole("MANAGER")){
-			throw new IllegalStateException("Uzivatel neni v roli MANAGER");
+	public User getLoggedUser(){
+		if (!facesContext.getExternalContext().isUserInRole("USER")){
+			throw new IllegalStateException("Uzivatel neni v roli USER");
 		}
-		if (restaurant== null){
-		restaurant = restaurantManager.getRestaurantByEmail(facesContext.getExternalContext().getUserPrincipal().getName());
+		if (user == null){
+		user = userManager.getUserByEmail(facesContext.getExternalContext().getUserPrincipal().getName());
 		}
-		return restaurant;
+		return user;
 	}
 	
 	@Produces
 	@Named
-	public Reservation getReservation() {
+	public Reservation getUserReservation() {
 		return newReservation;
 	}
 
@@ -83,17 +83,21 @@ public class ReservationController implements Serializable, Converter{
 	}
 
 	public void registerReservation() {
-		newReservation.setRestaurant(getLoggedRestaurant());
+		newReservation.setUser(getLoggedUser());
 		reservationManager.createReservation(newReservation);
 		facesContext.addMessage(null, new FacesMessage(
 				FacesMessage.SEVERITY_INFO, "Registration successful",
 				"Reservation was successfuly registered"));
-		
 		initReservation();
 	}
 	
 	public void deleteReservation(Reservation reservation){
 		reservationManager.removeReservation(reservation);
+		try {
+			facesContext.getExternalContext().redirect("/restman/userSpace/manageReservations.jsf");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		initReservation();
 	}
 
@@ -111,10 +115,6 @@ public class ReservationController implements Serializable, Converter{
 	@PostConstruct
 	public void initReservation() {
 		newReservation = new Reservation();
-	}
-
-	public Collection<Reservation> getUserReservations(User u) {
-		return reservationManager.getUserReservations(u);
 	}
 
 	public void updateReservation(Reservation r) {

@@ -22,7 +22,7 @@ public class ReservationManager {
 
 	@Inject
 	private EntityManager em;
-
+	
 	@Inject
 	private Logger log;
 	
@@ -31,15 +31,6 @@ public class ReservationManager {
 
 	@RolesAllowed({"USER", "MANAGER"})
 	public void createReservation(Reservation reservation) {
-		
-		/*user.getReservations().add(reservation);
-		em.merge(user);
-		
-		restaurant.getReservations().add(reservation);
-		em.merge(restaurant);*/
-		
-		/*reservation.setUser(user);
-		reservation.setRestaurant(restaurant);*/
 		
 		if (reservation.getReservedMenu() == null) 
 			reservation.setReservedMenu(new ArrayList<MenuItem>());
@@ -53,12 +44,12 @@ public class ReservationManager {
 	@RolesAllowed({"USER", "MANAGER"})
 	public void removeReservation(Reservation reservation) {
 		Reservation attachedReserv = em.merge(reservation);
+		String userName = attachedReserv.getUser().getFirstName();
 		attachedReserv.getUser().getReservations().remove(attachedReserv);
 		attachedReserv.getRestaurant().getReservations().remove(attachedReserv);
-		em.remove(attachedReserv);
-		log.info("Reservation: " + reservation.getId() 
-				+ " was removed");
-		reservationEventSrc.fire(reservation);
+		
+		em.remove(attachedReserv);		
+		log.info("Reservation was removed from user: " + userName);
 	}
 	
 	@RolesAllowed({"USER", "MANAGER"})
