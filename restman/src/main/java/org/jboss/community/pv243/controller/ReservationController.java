@@ -85,7 +85,8 @@ public class ReservationController implements Serializable, Converter{
 	}
 
 	public void registerReservation() {
-		reservationManager.createReservation(newReservation, newReservation.getUser() ,getLoggedRestaurant());
+		newReservation.setRestaurant(getLoggedRestaurant());
+		reservationManager.createReservation(newReservation);
 		facesContext.addMessage(null, new FacesMessage(
 				FacesMessage.SEVERITY_INFO, "Registration successful",
 				"Reservation was successfuly registered"));
@@ -99,7 +100,7 @@ public class ReservationController implements Serializable, Converter{
 	}
 
 	public void editReservation(Reservation newReservation) {
-		newReservation = reservationManager.getReservation((newReservation.getId()));
+		this.newReservation = reservationManager.getReservation((newReservation.getId()));
 		edit = true;
 	}
 

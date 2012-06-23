@@ -3,9 +3,10 @@ package org.jboss.community.pv243.data;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Observes;
+import javax.enterprise.event.Reception;
 import javax.enterprise.inject.Produces;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -16,7 +17,6 @@ import org.jboss.community.pv243.service.ReservationManager;
 import org.jboss.community.pv243.service.RestaurantManager;
 
 
-@ManagedBean
 @RequestScoped
 public class ReservationListProducer {
 	
@@ -55,6 +55,10 @@ public class ReservationListProducer {
 	@PostConstruct
 	public void initiateReservationItems(){
 		reservations = reservationManager.getRestaurantReservations(getLoggedRestaurant());
+	}
+	
+	public void onReservationsListChanged(@Observes(notifyObserver=Reception.IF_EXISTS) final Reservation reservation){
+		initiateReservationItems();
 	}
 
 }
