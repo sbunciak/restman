@@ -52,8 +52,9 @@ public class ReservationManagerRESTTest {
 	@Test
 	public void getReservation() throws JAXBException {
 		Reservation newReservation = createTestReservation();
-		reservationManager.createReservation(newReservation, 
-				createPersistTestUser(), createPersistTestRestaurant());
+		newReservation.setUser(createPersistTestUser());
+		newReservation.setRestaurant(createPersistTestRestaurant());
+		reservationManager.createReservation(newReservation);
 
 		Reservation dbReservation = reservationManager.getReservation(newReservation.getId());
 
