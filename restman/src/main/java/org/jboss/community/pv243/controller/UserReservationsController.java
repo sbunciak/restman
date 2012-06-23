@@ -1,6 +1,5 @@
 package org.jboss.community.pv243.controller;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
@@ -61,9 +60,7 @@ public class UserReservationsController implements Serializable, Converter{
 		if (!facesContext.getExternalContext().isUserInRole("USER")){
 			throw new IllegalStateException("Uzivatel neni v roli USER");
 		}
-		if (user == null){
-		user = userManager.getUserByEmail(facesContext.getExternalContext().getUserPrincipal().getName());
-		}
+		user = userManager.getUserByEmail(facesContext.getExternalContext().getUserPrincipal().getName());		
 		return user;
 	}
 	
@@ -93,11 +90,6 @@ public class UserReservationsController implements Serializable, Converter{
 	
 	public void deleteReservation(Reservation reservation){
 		reservationManager.removeReservation(reservation);
-		try {
-			facesContext.getExternalContext().redirect("/restman/userSpace/manageReservations.jsf");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		edit = false;
 		initReservation();
 	}

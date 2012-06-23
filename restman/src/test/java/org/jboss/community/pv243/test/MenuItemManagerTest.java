@@ -102,8 +102,9 @@ public class MenuItemManagerTest {
 		Restaurant restaurant = createPersistTestRestaurant();
 		
 		Reservation reservation = createTestReservation();
-		reservationManager.createReservation(reservation, 
-				createPersistTestUser(), restaurant);
+		reservation.setUser(createPersistTestUser());
+		reservation.setRestaurant(restaurant);
+		reservationManager.createReservation(reservation);
 		reservation.setReservedMenu(restaurant.getMenu());
 		reservationManager.updateReservation(reservation);
 
