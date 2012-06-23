@@ -3,9 +3,11 @@ package org.jboss.community.pv243.data;
 import java.util.Collection;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Observes;
+import javax.enterprise.event.Reception;
 import javax.enterprise.inject.Produces;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -58,8 +60,8 @@ public class MenuListProducer {
 			}*/
 		}
 		
-		/*public void onMenuItemListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final MenuItem menuItem){
+		public void onMenuItemListChanged(@Observes(notifyObserver = Reception.IF_EXISTS) final MenuItem menuItem){
 			initiateMenuItems();
-		}*/
+		}
 
 }

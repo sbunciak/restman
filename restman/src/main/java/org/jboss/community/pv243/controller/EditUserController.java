@@ -1,10 +1,12 @@
 package org.jboss.community.pv243.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -29,6 +31,9 @@ public class EditUserController implements Serializable {
 		private boolean edit = false;
 		
 		public User initLoggedUser(){
+			if (facesContext.getExternalContext().getUserPrincipal()== null){
+				return new User();
+			}
 			if (!facesContext.getExternalContext().isUserInRole("USER")){
 				throw new IllegalStateException("Uzivatel neni v roli USER");
 			}
@@ -41,6 +46,18 @@ public class EditUserController implements Serializable {
 		public void updateUser() {
 			userManager.updateUser(user);
 			edit = true;
+		}
+		
+		public void createUser(){
+			userManager.registerUser(user);
+			initiateUser();
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+					"Registration successful", "New user was successfuly created"));
+			try {
+				facesContext.getExternalContext().redirect("/restman");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 
 		public boolean isEdit() {
@@ -58,7 +75,7 @@ public class EditUserController implements Serializable {
 		}
 		
 		@PostConstruct
-		public void initiateMenuItems(){
+		public void initiateUser(){
 			user = initLoggedUser();
 		}
 		

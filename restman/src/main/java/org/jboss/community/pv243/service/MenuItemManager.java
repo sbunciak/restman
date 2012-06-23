@@ -48,6 +48,8 @@ public class MenuItemManager {
 	@RolesAllowed({"MANAGER"})
 	public void removeMenuItem(MenuItem menuItem) {
 		MenuItem mergedMenuItem = em.merge(menuItem);
+		mergedMenuItem.getRestaurant().getMenu().remove(mergedMenuItem);
+		em.merge(mergedMenuItem.getRestaurant());
 		em.remove(mergedMenuItem);
 		log.info("Menu item: " + menuItem.getName() 
 				+ " was removed");

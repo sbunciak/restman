@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="templates/UserTemplate.xhtml">
+
+	<ui:define name="top">
+		<h1>Register new user</h1>
+	</ui:define>
+	<ui:define name="content">
+		
+		<h:form id="test">
+			<h2>Register user</h2>
+			<h:messages />
+			<h:panelGrid columns="3">
+				<h:outputLabel for="email" value="Email:" />
+				<h:inputText id="email" value="#{loggedUser.email}" />
+				<h:message for="email" errorClass="invalid"/>
+				<h:outputLabel for="pwd" value="Password:" />
+				<h:inputSecret id="pwd" value="#{loggedUser.password}" />
+				<h:message for="pwd" errorClass="invalid"/>
+				<h:outputLabel for="firstName" value="Name:" />
+				<h:inputText id="firstName" value="#{loggedUser.firstName}" />
+				<h:message for="firstName" errorClass="invalid"/>
+				<h:outputLabel for="secondName" value="Second name:" />
+				<h:inputText id="secondName" value="#{loggedUser.secondName}" />
+				<h:message for="secondName" errorClass="invalid"/>
+				<h:outputLabel for="phoneNumber" value="Phone Number:" />
+				<h:inputText id="phoneNumber" value="#{loggedUser.phoneNumber}" />
+				<h:message for="phoneNumber" errorClass="invalid"/>
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+			<h:commandButton type="submit" action="#{editUserController.createUser()}" value="Update" />
+			<h:messages styleClass="messages" errorClass="invalid" infoClass="valid" warnClass="warning"
+	                           globalOnly="true"/>
+	        </h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>

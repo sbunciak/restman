@@ -25,6 +25,9 @@
       	 		<h:commandLink value="Logout" action="#{loginController.logout}" rendered="#{loginController.logged}"/>
       	 	</h:form>
       	 	<h:outputText value="Logged in as #{loginController.loggedUser}" rendered="#{loginController.logged}" />
+      	 	<h:outputLink rendered="#{loginController.loggedUser}" value="#{request.contextPath}/registerUser.jsf">Register</h:outputLink><br/>
+      	 	<h:messages styleClass="messages" errorClass="invalid" infoClass="valid" warnClass="warning"
+	                           globalOnly="true"/>
         </div>  
       </div>
       <div id="left">

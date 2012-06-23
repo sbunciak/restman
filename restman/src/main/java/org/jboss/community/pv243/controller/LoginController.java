@@ -72,7 +72,10 @@ public class LoginController {
 	}
 	
 	public String getLoggedUser(){
-		return facesContext.getExternalContext().getUserPrincipal().getName();
+		if (facesContext.getExternalContext().getUserPrincipal() != null){
+			return facesContext.getExternalContext().getUserPrincipal().getName();
+		}
+		return null;
 	}
 	
 }
