@@ -15,7 +15,6 @@
 		<h:dataTable var="_menuItem" value="#{restaurantForMenuShow.menu}"
 			styleClass="simpletablestyle"
 			rendered="#{not empty restaurantForMenuShow.menu}">
-			<h:outputText value="Restaurant has no menu" />
 			<h:column>
 				<f:facet name="header">Name</f:facet>
                 #{_menuItem.name}
@@ -29,5 +28,10 @@
                 #{_menuItem.prize}
        		</h:column>
 		</h:dataTable>
+		
+		<h:panelGroup rendered="#{empty restaurantForMenuShow.menu}">
+			<p>No menu found for restaurant #{restaurantForMenuShow.name}</p>
+		</h:panelGroup>
+		
 	</ui:define>
 </ui:composition>

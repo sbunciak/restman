@@ -14,5 +14,10 @@ insert into Restaurant (address, information, name, id) values ('restaurace2', '
 insert into MenuItem (name, prize, weight, id_restaurant) values ('Karfiol', 150, 150, 4)
 insert into MenuItem (name, prize, weight, id_restaurant) values ('Zeler', 20, 15, 4)
 
+/* adding restaurant with role MANAGER */
+insert into AbstractUser (email, password, role) values ('manager3@manager3', 'manager3', 'MANAGER')
+insert into Restaurant (address, information, name, id) values ('restaurace3', 'restaurace3', 'restaurace3', 5)
+
+
 /* adding reservation */
 insert into Reservation (id_reservation, id_user, id_restaurant, time, table_number, seats) values (1, 2, 3, '2008-7-04', 15, 5)
