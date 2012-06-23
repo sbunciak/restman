@@ -102,6 +102,9 @@ public class UserReservationsController implements Serializable, Converter{
 	public void save() {
 		reservationManager.updateReservation(newReservation);
 		edit = false;
+		facesContext.addMessage(null, new FacesMessage(
+				FacesMessage.SEVERITY_INFO, "Update successful",
+				"Reservation was successfuly updated"));
 		initReservation();
 	}
 

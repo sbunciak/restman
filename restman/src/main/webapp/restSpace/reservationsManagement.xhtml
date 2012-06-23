@@ -50,22 +50,22 @@
 				<h:panelGrid rendered="#{reservationController.edit}">Edit reservation </h:panelGrid>
 			</h2>
 			<h:panelGrid columns="3">
+				<h:outputLabel for="user" value="User:" />
+				<h:selectOneMenu id="user" value="#{reservation.user}" converter="#{reservationController}">
+					<f:selectItems value="#{users}" var="_user" itemLabel="#{_user.firstName}"/>
+				</h:selectOneMenu>
+				<h:message for="user" errorClass="invalid"/>
 				<h:outputLabel for="seats" value="Seats:" />
 				<h:inputText id="seats" value="#{reservation.seats}" />
 				<h:message for="seats" errorClass="invalid"/>
 				<h:outputLabel for="tableNumber" value="Table Number:" />
 				<h:inputText id="tableNumber" value="#{reservation.tableNumber}" />
 				<h:message for="tableNumber" errorClass="invalid"/>
-				<h:outputLabel for="time" value="Time:" />
-				<h:inputText id="time" value="#{reservation.time}" >
+				<h:outputLabel for="date" value="Date:" />
+				<h:inputText id="date" value="#{reservation.time}" >
 					<f:convertDateTime pattern="dd.MM.yyyy"/>
 				</h:inputText>
-				<h:message for="time" errorClass="invalid"/>
-				<h:outputLabel for="user" value="User:" />
-				<h:selectOneMenu id="user" value="#{reservation.user}" converter="#{reservationController}">
-					<f:selectItems value="#{users}" var="_user" itemLabel="#{_user.firstName}"/>
-				</h:selectOneMenu>
-				<h:message for="user" errorClass="invalid"/>
+				<h:message for="time" errorClass="invalid"/>				
 			</h:panelGrid>
 			<h:panelGrid columns="3">
 				<h:commandButton rendered="#{!reservationController.edit}"

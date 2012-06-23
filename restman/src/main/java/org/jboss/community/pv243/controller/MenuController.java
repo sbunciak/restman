@@ -1,5 +1,6 @@
 package org.jboss.community.pv243.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
@@ -55,6 +56,21 @@ public class MenuController implements Serializable{
 		return menuItem;
 	}
 	
+	@Produces
+	@Named
+	public Restaurant getRestaurantForMenuShow() {
+		return restaurant;
+	}
+	
+	public void showMenu(Restaurant restaurant) {
+		this.restaurant = restaurant;
+		try {
+			facesContext.getExternalContext().redirect("/restman/restaurantMenu.jsf");
+		 } catch (IOException e) {
+			 e.printStackTrace();
+		}
+	}
+
 	public void createMenuItem(){
 		menuItem.setRestaurant(getLoggedRestaurant());
 		menuItemManager.createMenuItem(menuItem);
@@ -95,7 +111,9 @@ public class MenuController implements Serializable{
 	
 	@PostConstruct
 	public void initMenuItem(){
-		menuItem = new MenuItem();
-		menuItem.setRestaurant(getLoggedRestaurant());
+		if (!facesContext.getExternalContext().getRequestServletPath().equals("/showRestaurants.jsf")){
+			menuItem = new MenuItem();
+			menuItem.setRestaurant(getLoggedRestaurant());
+		}
 	}
 }

@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,6 +37,9 @@ public class UserController implements Serializable {
 	
 	public void registerUser(){
 		userManager.registerUser(newUser);
+		facesContext.addMessage(null, new FacesMessage(
+				FacesMessage.SEVERITY_INFO, "Registration successful",
+				"User was successfuly registered"));
 		initiateUser();
 	}
 	
@@ -51,6 +55,8 @@ public class UserController implements Serializable {
 	
 	public void save() {
 		userManager.updateUser(newUser);
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, 
+				"Update successful", "User was successfuly updated"));
 		edit = false;
 		initiateUser();
 	}
@@ -66,7 +72,12 @@ public class UserController implements Serializable {
 
 	@PostConstruct
 	public void initiateUser(){
-		newUser = new User();
+		if (facesContext.getExternalContext().getRequestServletPath().equals("/userSpace/editInfo.jsf")){
+			newUser= userManager.getUserByEmail(facesContext.getExternalContext().getUserPrincipal().getName());
+			edit=true;
+		}else{
+			newUser = new User();
+		}
 	}
 	
 }

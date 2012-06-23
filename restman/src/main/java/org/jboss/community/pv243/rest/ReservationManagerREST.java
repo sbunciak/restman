@@ -58,7 +58,7 @@ public class ReservationManagerREST {
 	@Consumes(MediaType.APPLICATION_XML)
 	public void createReservation(Restaurant restaurant, User user,
 			Reservation reservation) {
-		manager.createReservation(reservation, user, restaurant);
+//		manager.createReservation(reservation, user, restaurant);
 	}
 
 	@POST

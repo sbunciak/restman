@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="templates/UserTemplate.xhtml">
+
+	<ui:define name="top">
+		<h1>Restaurants</h1>
+	</ui:define>
+	<ui:define name="content">
+		<h1>
+			<h:outputText value="Menu of #{restaurantForMenuShow.name}" />
+		</h1>
+		<h:dataTable var="_menuItem" value="#{restaurantForMenuShow.menu}"
+			styleClass="simpletablestyle"
+			rendered="#{not empty restaurantForMenuShow.menu}">
+			<h:outputText value="Restaurant has no menu" />
+			<h:column>
+				<f:facet name="header">Name</f:facet>
+                #{_menuItem.name}
+       		</h:column>
+			<h:column>
+				<f:facet name="header">Weight</f:facet>
+                #{_menuItem.weight}
+        	</h:column>
+			<h:column>
+				<f:facet name="header">Prize</f:facet>
+                #{_menuItem.prize}
+       		</h:column>
+		</h:dataTable>
+	</ui:define>
+</ui:composition>
