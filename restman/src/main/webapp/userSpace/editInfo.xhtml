@@ -9,26 +9,31 @@
 		<h1>Edit personal information</h1>
 	</ui:define>
 	<ui:define name="content">
-		
+
 		<h:form id="test">
 			<h2>Edit form</h2>
-			<h:messages />
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="3">
 				<h:outputLabel for="email" value="Email:" />
 				<h:inputText id="email" value="#{loggedUser.email}" />
+				<h:message for="email" errorClass="invalid" />
 				<h:outputLabel for="pwd" value="Password:" />
-				<h:inputText id="pwd" value="#{loggedUser.password}" />
+				<h:inputSecret id="pwd" value="#{loggedUser.password}" />
+				<h:message for="pwd" errorClass="invalid" />
 				<h:outputLabel for="firstName" value="Name:" />
 				<h:inputText id="firstName" value="#{loggedUser.firstName}" />
+				<h:message for="firstName" errorClass="invalid" />
 				<h:outputLabel for="secondName" value="Second name:" />
 				<h:inputText id="secondName" value="#{loggedUser.secondName}" />
+				<h:message for="secondName" errorClass="invalid" />
 				<h:outputLabel for="phoneNumber" value="Phone Number:" />
 				<h:inputText id="phoneNumber" value="#{loggedUser.phoneNumber}" />
+				<h:message for="phoneNumber" errorClass="invalid" />
 			</h:panelGrid>
-			<h:commandButton type="submit" action="#{editUserController.updateUser}" value="Update" />
-			<h2>
-				<h:panelGrid rendered="#{editUserController.edit}">Edit was successful </h:panelGrid>
-			</h2>
+			<h:panelGrid columns="2">
+				<h:commandButton action="#{editUserController.updateUser}"
+					value="Update" />
+				<h:outputText value="Edit was successful" rendered="#{editUserController.edit}"/>
+			</h:panelGrid>
 		</h:form>
 	</ui:define>
 </ui:composition>
