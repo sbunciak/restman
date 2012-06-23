@@ -5,3 +5,4 @@ insert into User (first_name, phone_number, second_name, id) values ('user', 123
 insert into Restaurant (address, information, name, id) values ('restaurace', 'restaurace', 'restaurace', 3)
 insert into MenuItem (name, prize, weight, id_restaurant) values ('Kneedl', 150, 150, 3)
 insert into MenuItem (name, prize, weight, id_restaurant) values ('Vajco', 20, 15, 3)
+insert into Reservation (seats, table_number, time, id_restaurant, id_user) values (5, 2, NOW(), 3, 2)

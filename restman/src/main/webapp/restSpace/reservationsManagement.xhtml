@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	template="../templates/UserTemplate.xhtml">
+
+	<ui:define name="top">
+		<h1>Manager</h1>
+	</ui:define>
+	<ui:define name="content">
+		<h1>Manu Item Management</h1>
+		<h:form rendered="#{not empty reservationItems}"
+			styleClass="simpletablestyle">
+			<h:dataTable var="_reservationItem" value="#{reservationItems}">
+				<h:column>
+					<f:facet name="header">Seats</f:facet>
+                #{_reservationItem.seats}
+         		</h:column>
+				<h:column>
+					<f:facet name="header">Table number</f:facet>
+                #{_reservationItem.tableNumber}
+         		</h:column>
+				<h:column>
+					<f:facet name="header">Time</f:facet>
+                #{_reservationItem.time}
+         		</h:column>
+         		<h:column>
+					<f:facet name="header">User</f:facet>
+                #{_reservationItem.user.firstName} #{_reservationItem.user.secondName} 
+         		</h:column>
+				<h:column>
+					<h:commandButton value="Edit"
+						action="#{reservationController.editReservation(_reservationItem)}" />
+				</h:column>
+				<h:column>
+					<h:commandButton value="Delete"
+						action="#{reservationController.deleteReservation(_reservationItem)}" />
+				</h:column>
+			</h:dataTable>
+		</h:form>
+		
+		<h:panelGroup rendered="#{empty reservationItems}">
+			<p>No reservations found!</p>
+		</h:panelGroup>
+
+		<h:form styleClass="simpletablestyle">
+			<h2>
+				<h:panelGrid rendered="#{!reservationController.edit}">Register new Reservation </h:panelGrid>
+				<h:panelGrid rendered="#{reservationController.edit}">Edit reservation </h:panelGrid>
+			</h2>
+			<h:panelGrid columns="2">
+				<h:outputLabel for="seats" value="Seats:" />
+				<h:inputText id="seats" value="#{reservation.seats}" />
+				<h:outputLabel for="tableNumber" value="Table Number:" />
+				<h:inputText id="tableNumber" value="#{reservation.tableNumber}" />
+				<h:outputLabel for="time" value="Time:" />
+				<h:inputText id="time" value="#{reservation.time}" >
+					<f:convertDateTime pattern="dd.MM.yyyy"/>
+				</h:inputText>
+				<h:outputLabel for="user" value="User:" />
+				<h:selectOneMenu id="user" value="#{reservation.user}" converter="#{reservationController}">
+					<f:selectItems value="#{users}" var="_user" itemLabel="#{_user.firstName}"/>
+				</h:selectOneMenu>
+			</h:panelGrid>
+			<h:commandButton rendered="#{!reservationController.edit}"
+				action="#{reservationController.registerReservation()}" value="Create" />
+			<h:commandButton rendered="#{reservationController.edit}"
+				action="#{reservationController.save()}" value="Save" />
+			<h:commandButton action="#{menuController.clear}" value="Clear" />
+		</h:form>
+	</ui:define>
+</ui:composition>
