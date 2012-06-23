@@ -13,8 +13,10 @@ import javax.inject.Named;
 
 import org.jboss.community.pv243.model.Reservation;
 import org.jboss.community.pv243.model.Restaurant;
+import org.jboss.community.pv243.model.User;
 import org.jboss.community.pv243.service.ReservationManager;
 import org.jboss.community.pv243.service.RestaurantManager;
+import org.jboss.community.pv243.service.UserManager;
 
 
 @RequestScoped
@@ -29,8 +31,12 @@ public class ReservationListProducer {
 	@Inject
 	FacesContext facesContext;
 	
+	@Inject
+	UserManager userManager;
+	
 	private Collection<Reservation> reservations;
 	
+	private User user;
 	
 	private Restaurant restaurant;
 
@@ -45,6 +51,15 @@ public class ReservationListProducer {
 		return restaurant;
 	}
 	
+	public User getLoggedUser(){
+		if (!facesContext.getExternalContext().isUserInRole("USER")){
+			throw new IllegalStateException("Uzivatel neni v roli USER");
+		}
+		if (user == null){
+		user = userManager.getUserByEmail(facesContext.getExternalContext().getUserPrincipal().getName());
+		}
+		return user;
+	}
 	
 	@Produces
 	@Named
@@ -53,12 +68,16 @@ public class ReservationListProducer {
 	}
 	
 	@PostConstruct
-	public void initiateReservationItems(){
-		reservations = reservationManager.getRestaurantReservations(getLoggedRestaurant());
+	public void initiateReservationItems() {
+		if (facesContext.getExternalContext().isUserInRole("MANAGER")) {
+			reservations = reservationManager.getRestaurantReservations(getLoggedRestaurant());
+		} else {
+			reservations = reservationManager.getUserReservations(getLoggedUser());
+		}
 	}
 	
 	public void onReservationsListChanged(@Observes(notifyObserver=Reception.IF_EXISTS) final Reservation reservation){
 		initiateReservationItems();
 	}
-
+	
 }

@@ -11,9 +11,9 @@
    <ui:define name="content">
       <h1>Reservation management</h1>
 
-      <h:form rendered="#{not empty userReservations}"
+      <h:form rendered="#{not empty reservationItems}"
 			styleClass="simpletablestyle">
-			<h:dataTable var="_reservation" value="#{userReservations}">
+			<h:dataTable var="_reservation" value="#{reservationItems}">
 				<h:column>
 					<f:facet name="header">Restaurant</f:facet>
                 #{_reservation.restaurant.name}
@@ -21,11 +21,7 @@
          		<h:column>
 					<f:facet name="header">Date</f:facet>
                 #{_reservation.time}
-         		</h:column>
-				<!-- <h:column>
-					<f:facet name="header">Menu</f:facet>
-                #{_reservation.reservedMenu}
-         		</h:column>  -->
+         		</h:column>				
 				<h:column>
 					<f:facet name="header">Table</f:facet>
                 #{_reservation.tableNumber}
@@ -67,12 +63,7 @@
 		        <h:outputLabel for="seats" value="Seats:"/>
 		        <h:inputText id="seats" value="#{userReservation.seats}" />
             </h:panelGrid>
-            <!-- 
-            TODO:
-            
-            <h:outputLabel for="menu" value="Menu:"/>
-		    <h:inputText id="menu" value="#{reservation.reservedMenu}" />
-		     -->
+           
 		    <h:commandButton rendered="#{!userReservationsController.edit}" 
 				action="#{userReservationsController.registerReservation}" 
 				value="Register" />
