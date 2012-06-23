@@ -37,9 +37,9 @@ public class MenuListProducer {
 			if (!facesContext.getExternalContext().isUserInRole("MANAGER")){
 				throw new IllegalStateException("Uzivatel neni v roli MANAGER");
 			}
-			if (restaurant== null){
+			//if (restaurant== null){
 			restaurant = restaurantManager.getRestaurantByEmail(facesContext.getExternalContext().getUserPrincipal().getName());
-			}
+			//}
 			return restaurant;
 		}
 		
