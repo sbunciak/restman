@@ -52,24 +52,32 @@
 				<h:panelGrid rendered="#{!userController.edit}">Register new user </h:panelGrid>
 				<h:panelGrid rendered="#{userController.edit}">Edit user </h:panelGrid>
 			</h2>
-			<h:messages />
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="3">
 				<h:outputLabel for="email" value="Email:" />
 				<h:inputText id="email" value="#{newUser.email}" />
+				<h:message for="email" errorClass="invalid" />
 				<h:outputLabel for="password" value="Password:" />
 				<h:inputSecret id="password" value="#{newUser.password}" />
+				<h:message for="password" errorClass="invalid" />
 				<h:outputLabel for="firstName" value="Jmeno:" />
 				<h:inputText id="firstName" value="#{newUser.firstName}" />
+				<h:message for="firstName" errorClass="invalid" />
 				<h:outputLabel for="secondName" value="Second name:" />
 				<h:inputText id="secondName" value="#{newUser.secondName}" />
+				<h:message for="secondName" errorClass="invalid" />
 				<h:outputLabel for="phoneNumber" value="Phone:" />
 				<h:inputText id="phoneNumber" value="#{newUser.phoneNumber}" />
+				<h:message for="phoneNumber" errorClass="invalid" />
 			</h:panelGrid>
-			<h:commandButton rendered="#{!userController.edit}" type="submit"
-				action="#{userController.registerUser}" value="Register" />
-			<h:commandButton rendered="#{userController.edit}" type="submit"
-				action="#{userController.save}" value="Save" />
-			<h:commandButton action="#{userController.clear}" value="Clear" />
+			<h:panelGrid columns="3">
+				<h:commandButton rendered="#{!userController.edit}" type="submit"
+					action="#{userController.registerUser}" value="Register" />
+				<h:commandButton rendered="#{userController.edit}" type="submit"
+					action="#{userController.save}" value="Save" />
+				<h:commandButton action="#{userController.clear}" value="Clear" />
+				<h:messages styleClass="messages" errorClass="invalid"
+					infoClass="valid" warnClass="warning" globalOnly="true" />
+			</h:panelGrid>
 		</h:form>
 
 	</ui:define>

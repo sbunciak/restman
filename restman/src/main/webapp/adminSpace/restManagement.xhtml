@@ -43,7 +43,7 @@
 				</h:column>
 			</h:dataTable>
 		</h:form>
-		
+
 		<h:panelGroup rendered="#{empty restaurants}">
 			<p>No restaurants found!</p>
 		</h:panelGroup>
@@ -53,24 +53,34 @@
 				<h:panelGrid rendered="#{!restaurantController.edit}">Register new restaurant </h:panelGrid>
 				<h:panelGrid rendered="#{restaurantController.edit}">Edit restaurant </h:panelGrid>
 			</h2>
-			<h:messages />
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="3">
 				<h:outputLabel for="email" value="Email:" />
 				<h:inputText id="email" value="#{restaurant.email}" />
+				<h:message for="email" errorClass="invalid" />
 				<h:outputLabel for="password" value="Password:" />
 				<h:inputSecret id="password" value="#{restaurant.password}" />
+				<h:message for="password" errorClass="invalid" />
 				<h:outputLabel for="firstName" value="Name:" />
 				<h:inputText id="firstName" value="#{restaurant.name}" />
+				<h:message for="firstName" errorClass="invalid" />
 				<h:outputLabel for="information" value="Information:" />
 				<h:inputText id="information" value="#{restaurant.information}" />
+				<h:message for="information" errorClass="invalid" />
 				<h:outputLabel for="secondName" value="Address:" />
 				<h:inputText id="secondName" value="#{restaurant.address}" />
+				<h:message for="secondName" errorClass="invalid" />
 			</h:panelGrid>
-			<h:commandButton rendered="#{!restaurantController.edit}"
-				action="#{restaurantController.registerRestaurant}" value="Register" />
-			<h:commandButton rendered="#{restaurantController.edit}"
-				action="#{restaurantController.save}" value="Save" />
-			<h:commandButton action="#{restaurantController.clear}" value="Clear" />
+			<h:panelGrid columns="3">
+				<h:commandButton rendered="#{!restaurantController.edit}"
+					action="#{restaurantController.registerRestaurant}"
+					value="Register" />
+				<h:commandButton rendered="#{restaurantController.edit}"
+					action="#{restaurantController.save}" value="Save" />
+				<h:commandButton action="#{restaurantController.clear}"
+					value="Clear" />
+				<h:messages styleClass="messages" errorClass="invalid"
+					infoClass="valid" warnClass="warning" globalOnly="true" />
+			</h:panelGrid>
 		</h:form>
 	</ui:define>
 </ui:composition>
