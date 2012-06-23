@@ -13,56 +13,7 @@
 		<h:link value="Test" outcome="userSpace" />
 	</ui:define> -->
 	<ui:define name="content">
-      <h1>Test</h1>
-
-      <div>
-         <p>You have successfully deployed a Java EE 6 web application.</p>
-         <h3>Your application can run on:</h3>
-         <img src="resources/gfx/dualbrand_as7eap.png"/>
-      </div>
-
-		<h:form id="test">
-			<h2>Test form</h2>
-			<h:panelGrid columns="2">
-				<h:outputLabel for="email" value="Email:"/>
-		        <h:inputText id="email" value="#{newUser.email}" />
-		        <h:outputLabel for="password" value="Password:"/>
-		        <h:inputSecret id="password" value="#{newUser.password}" />
-				<h:outputLabel for="firstName" value="Jmeno:" />
-				<h:inputText id="firstName" value="#{newUser.firstName}" />
-				<h:outputLabel for="secondName" value="Second name:"/>
-		        <h:inputText id="secondName" value="#{newUser.secondName}" />
-		    	<h:outputLabel for="phoneNumber" value="Phone:"/>
-		        <h:inputText id="phoneNumber" value="#{newUser.phoneNumber}" />
-		        
-            </h:panelGrid>
-            <h:commandButton action="#{userController.registerUser}" value="Register" />
-			
-		</h:form>
-		<h:selectOneListbox>
-			<ui:repeat var="_restaurant" value="#{restaurants}">
-				<f:selectItems value="#{restaurants}"/>
-			</ui:repeat>
-		</h:selectOneListbox>
-			
-	
-		<h:dataTable var="_user" value="#{users}" styleClass="simpletablestyle">
-         <h:column>
-            <f:facet name="header">Id</f:facet>
-                #{_user.id}
-         </h:column>
-         <h:column>
-            <f:facet name="header">Name</f:facet>
-                #{_user.firstName}
-         </h:column>
-         <h:column>
-            <f:facet name="header">Second Name</f:facet>
-                #{_user.secondName}
-         </h:column>
-         <h:column>
-            <f:facet name="header">Phone Number</f:facet>
-                #{_user.phoneNumber}
-         </h:column>
-        </h:dataTable>
+      <h1>Hi!</h1>
+      <h2>Welcome to RestMAN!</h2>
    </ui:define>
 </ui:composition>

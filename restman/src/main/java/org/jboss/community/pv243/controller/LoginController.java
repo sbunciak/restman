@@ -71,4 +71,8 @@ public class LoginController {
 		return false;
 	}
 	
+	public String getLoggedUser(){
+		return facesContext.getExternalContext().getUserPrincipal().getName();
+	}
+	
 }

@@ -24,6 +24,7 @@
       	 	<h:commandLink value="Login" action="#{loginController.login}" rendered="#{!loginController.logged}"/>
       	 		<h:commandLink value="Logout" action="#{loginController.logout}" rendered="#{loginController.logged}"/>
       	 	</h:form>
+      	 	<h:outputText value="Logged in as #{loginController.loggedUser}" rendered="#{loginController.logged}" />
         </div>  
       </div>
       <div id="left">
