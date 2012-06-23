@@ -90,11 +90,11 @@ public class ReservationController implements Serializable, Converter{
 				FacesMessage.SEVERITY_INFO, "Registration successful",
 				"Reservation was successfuly registered"));
 		initReservation();
-		try {
+		/*try {
 			facesContext.getExternalContext().redirect("/restman/restSpace/reservationsManagement.jsf");
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	public void deleteReservation(Reservation reservation){
@@ -115,6 +115,9 @@ public class ReservationController implements Serializable, Converter{
 	public void save() {
 		reservationManager.updateReservation(newReservation);
 		edit = false;
+		facesContext.addMessage(null, new FacesMessage(
+				FacesMessage.SEVERITY_INFO, "Update successful",
+				"Reservation was successfuly updated"));
 		initReservation();
 		/*try {
 			facesContext.getExternalContext().redirect("/restman/restSpace/reservationsManagement.jsf");

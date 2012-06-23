@@ -10,21 +10,24 @@
 </h:head>
 <h:body>
    <div id="container">
-      <div id="top">
-      	<div id="text">
+      <div id="top" style="height:110px;">
+      	<div style="width:130px;float:left;">
+			<img height="100px" src="#{request.contextPath}/resources/gfx/RESTManBlack.png" />
+        </div>
+      	<div  style="width:550px;float:left;" >
       	 <ui:insert name="top">
          	Top!
          </ui:insert>
-         </div>
-         <div id="logo"><img height="100px" src="#{request.contextPath}/resources/gfx/RESTManBlack.png" /></div>
-      </div>
-      <div id="left">
-      	 <ui:insert name="left">
-      	 	
-      	 	<h:form>
+        </div>
+        <div style="width:100px;float:left;" >
+        	<h:form>
       	 	<h:commandLink value="Login" action="#{loginController.login}" rendered="#{!loginController.logged}"/>
       	 		<h:commandLink value="Logout" action="#{loginController.logout}" rendered="#{loginController.logged}"/>
       	 	</h:form>
+        </div>  
+      </div>
+      <div id="left">
+      	 <ui:insert name="left">
       	 	<br />
       	 	<br />
       	 	<h:outputLink value="#{request.contextPath}/index.jsf">Index</h:outputLink><br/>
@@ -34,8 +37,9 @@
       	 		<h:outputLink value="#{request.contextPath}/userSpace/manageReservations.jsf">Manage Reservations</h:outputLink><br/>
       	 	</h:panelGroup>
       	 	<h:panelGroup layout="block" rendered="#{loginController.manager}">
-      	 		<h:outputLink value="#{request.contextPath}/managerSpace/editInfo.jsf">Edit Restaurant Info</h:outputLink><br/>
-      	 		<h:outputLink value="#{request.contextPath}/managerSpace/editMenu.jsf">Edit Restaurant Menu</h:outputLink><br/>
+      	 		<h:outputLink value="#{request.contextPath}/restSpace/editRestaurant.jsf">Edit Restaurant Info</h:outputLink><br/>
+      	 		<h:outputLink value="#{request.contextPath}/restSpace/menuItemManagement.jsf">Edit Restaurant Menu</h:outputLink><br/>
+      	 		<h:outputLink value="#{request.contextPath}/restSpace/reservationsManagement.jsf">Edit Reservations</h:outputLink><br/>
       	 	</h:panelGroup>
       	 	<h:panelGroup layout="block" rendered="#{loginController.admin}">
       	 		<h:outputLink value="#{request.contextPath}/adminSpace/userManagement.jsf">Management of Users</h:outputLink><br/>

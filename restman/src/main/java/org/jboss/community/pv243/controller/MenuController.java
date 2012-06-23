@@ -77,6 +77,9 @@ public class MenuController implements Serializable{
 	public void save() {
 		menuItemManager.updateMenuItem(menuItem);
 		edit = false;
+		facesContext.addMessage(null, new FacesMessage(
+				FacesMessage.SEVERITY_INFO, "Update successful",
+				"Menu Item was successfuly updated"));
 		initMenuItem();
 	}
 	

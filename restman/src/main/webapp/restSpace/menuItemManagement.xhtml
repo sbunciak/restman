@@ -9,7 +9,7 @@
 		<h1>Manager</h1>
 	</ui:define>
 	<ui:define name="content">
-		<h1>Manu Item Management</h1>
+		<h1>Menu Item Management</h1>
 		<h:form rendered="#{not empty menuItems}"
 			styleClass="simpletablestyle">
 			<h:dataTable var="_menuItem" value="#{menuItems}">
@@ -45,20 +45,27 @@
 				<h:panelGrid rendered="#{!menuController.edit}">Register new restaurant </h:panelGrid>
 				<h:panelGrid rendered="#{menuController.edit}">Edit restaurant </h:panelGrid>
 			</h2>
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="3">
 				<h:outputLabel for="name" value="Name:" />
 				<h:inputText id="name" value="#{menuItem.name}" />
+				<h:message for="name" errorClass="invalid"/>
 				<h:outputLabel for="weight" value="Weight:" />
 				<h:inputText id="weight" value="#{menuItem.weight}" />
+				<h:message for="weight" errorClass="invalid"/>
 				<h:outputLabel for="prize" value="Price:" />
 				<h:inputText id="prize" value="#{menuItem.prize}" />
+				<h:message for="prize" errorClass="invalid"/>
 				
 			</h:panelGrid>
-			<h:commandButton rendered="#{!menuController.edit}"
-				action="#{menuController.createMenuItem()}" value="Create" />
-			<h:commandButton rendered="#{menuController.edit}"
-				action="#{menuController.save}" value="Save" />
-			<h:commandButton action="#{menuController.clear}" value="Clear" />
+			<h:panelGrid columns="3">
+				<h:commandButton rendered="#{!menuController.edit}"
+					action="#{menuController.createMenuItem()}" value="Create" />
+				<h:commandButton rendered="#{menuController.edit}"
+					action="#{menuController.save}" value="Save" />
+				<h:commandButton action="#{menuController.clear}" value="Clear" />
+				<h:messages styleClass="messages" errorClass="invalid" infoClass="valid" warnClass="warning"
+		                           globalOnly="true"/>
+	         </h:panelGrid>
 		</h:form>
 	</ui:define>
 </ui:composition>

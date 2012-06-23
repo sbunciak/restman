@@ -40,17 +40,17 @@ body {
 }
 
 #top {	
+	
 	width: 100%;
-}
-
-#logo {
-	text-align: right;
-	vertical-align:middle;
+	height: 110px;
 }
 
 #text {
-	float:left;
 	margin-left: 30px;
+	overflow: auto;
+}
+#top div{
+	float:left;margin-left:10px;margin-right:10px;
 }
 
 #aside ul {

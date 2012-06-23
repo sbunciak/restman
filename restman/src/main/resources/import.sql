@@ -15,4 +15,4 @@ insert into MenuItem (name, prize, weight, id_restaurant) values ('Karfiol', 150
 insert into MenuItem (name, prize, weight, id_restaurant) values ('Zeler', 20, 15, 4)
 
 /* adding reservation */
-insert into Reservation (id_reservation, id_user, id_restaurant, table_number, seats) values (1, 2, 3, 15, 5)
+insert into Reservation ( id_user, id_restaurant, table_number, seats) values (2, 3, 15, 5)
