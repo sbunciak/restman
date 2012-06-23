@@ -13,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.LazyCollection;
@@ -55,13 +58,15 @@ public class Reservation implements Serializable {
 	)
 	private Collection<MenuItem> reservedMenu;
 	
-	//@Future
+	@Future
+	@NotNull(message="Please enter the date of reservation")
 	private Date time;
 	
 	@Column(name="table_number")
+	@Min(message="Number of reserved table must be 0 or greater", value=0)
 	private int tableNumber;
 	
-//	@Min(1)
+	@Min(message="Number of reserved seats must be 1 or greater", value=1)
 	private int seats;
 
 	public int getId() {
