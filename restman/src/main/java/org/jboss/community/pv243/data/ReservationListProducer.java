@@ -45,9 +45,7 @@ public class ReservationListProducer {
 		if (!facesContext.getExternalContext().isUserInRole("MANAGER")){
 			throw new IllegalStateException("Uzivatel neni v roli MANAGER");
 		}
-		//if (restaurant== null){
 		restaurant = restaurantManager.getRestaurantByEmail(facesContext.getExternalContext().getUserPrincipal().getName());
-		//}
 		return restaurant;
 	}
 	
@@ -55,9 +53,7 @@ public class ReservationListProducer {
 		if (!facesContext.getExternalContext().isUserInRole("USER")){
 			throw new IllegalStateException("Uzivatel neni v roli USER");
 		}
-		if (user == null){
 		user = userManager.getUserByEmail(facesContext.getExternalContext().getUserPrincipal().getName());
-		}
 		return user;
 	}
 	
