@@ -32,11 +32,11 @@ public class ReservationManager {
 	@RolesAllowed({"USER", "MANAGER"})
 	public void createReservation(Reservation reservation, User user, Restaurant restaurant) {
 		
-//		user.getReservations().add(reservation);
-//		em.merge(user);
-//		
-//		restaurant.getReservations().add(reservation);
-//		em.merge(restaurant);
+		user.getReservations().add(reservation);
+		em.merge(user);
+		
+		restaurant.getReservations().add(reservation);
+		em.merge(restaurant);
 		
 		reservation.setUser(user);
 		reservation.setRestaurant(restaurant);
