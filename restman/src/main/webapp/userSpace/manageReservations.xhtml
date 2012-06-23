@@ -11,25 +11,21 @@
    <ui:define name="content">
       <h1>Reservation management</h1>
 
-      <h:form rendered="#{not empty reservationController.getUserReservations(loggedUser)}"
+      <h:form rendered="#{not empty userReservations}"
 			styleClass="simpletablestyle">
-			<h:dataTable var="_reservation" value="#{reservationController.getUserReservations(loggedUser)}">
-				<h:column>
-					<f:facet name="header">User</f:facet>
-                #{_reservation.user}
-         		</h:column>
+			<h:dataTable var="_reservation" value="#{userReservations}">
 				<h:column>
 					<f:facet name="header">Restaurant</f:facet>
-                #{_reservation.restaurant}
+                #{_reservation.restaurant.name}
          		</h:column>
          		<h:column>
 					<f:facet name="header">Date</f:facet>
                 #{_reservation.time}
          		</h:column>
-				<h:column>
+				<!-- <h:column>
 					<f:facet name="header">Menu</f:facet>
                 #{_reservation.reservedMenu}
-         		</h:column>
+         		</h:column>  -->
 				<h:column>
 					<f:facet name="header">Table</f:facet>
                 #{_reservation.tableNumber}
@@ -49,21 +45,27 @@
 			</h:dataTable>
 		</h:form>
 		<h:form id="test">
-			<h2>Add reservation</h2>
+			<h2>
+				<h:panelGrid rendered="#{!reservationController.edit}">Add reservation</h:panelGrid>
+				<h:panelGrid rendered="#{reservationController.edit}">Edit reservation</h:panelGrid>
+			</h2>
+			<h2></h2>
 			<h:messages />
 			<h:panelGrid columns="2">
-				<h:outputLabel for="restaurant" value="Restaurant:" />
-				<h:selectOneMenu id="restaurant" value="#{reservation.restaurant}">
-					<f:selectItems value="#{restaurantController.allRestaurants}" var="_restaurant" itemValue="#{_restaurant}" itemLabel="#{_restaurant.name}" />
+				<h:outputLabel for="restaurant" value="Restaurant:" rendered="#{!reservationController.edit}"/>
+				<h:selectOneMenu id="restaurant" value="#{newReservation.restaurant}" 
+					converter="#{restaurantConverter}" rendered="#{!reservationController.edit}" >					
+					<f:selectItems value="#{restaurantController.allRestaurants}" 
+					var="_restaurant" itemValue="#{_restaurant}" itemLabel="#{_restaurant.name}" />
 				</h:selectOneMenu>
 				<h:outputLabel for="date" value="Date:"/>
-		        <h:inputText id="date" value="#{reservation.time}">
-		        	<f:convertDateTime pattern="dd.MM.yyyy" />
+		        <h:inputText id="date" value="#{newReservation.time}">
+		        	<f:convertDateTime type="date" pattern="dd.MM.yyyy" />
 		        </h:inputText>
 		        <h:outputLabel for="table" value="Table number:"/>
-		        <h:inputText id="table" value="#{reservation.tableNumber}" />
+		        <h:inputText id="table" value="#{newReservation.tableNumber}" />
 		        <h:outputLabel for="seats" value="Seats:"/>
-		        <h:inputText id="seats" value="#{reservation.seats}" />
+		        <h:inputText id="seats" value="#{newReservation.seats}" />
             </h:panelGrid>
             <!-- 
             TODO:
@@ -71,10 +73,15 @@
             <h:outputLabel for="menu" value="Menu:"/>
 		    <h:inputText id="menu" value="#{reservation.reservedMenu}" />
 		     -->
-            <h:commandButton action="#{reservationController.registerReservation(loggedUser, reservation.restaurant)}" value="Create reservation" />
-			
+		    <h:commandButton rendered="#{!reservationController.edit}" type="submit" immediate="true"
+				action="#{reservationController.registerReservation(loggedUser)}" 
+				value="Register" />
+			<h:commandButton rendered="#{reservationController.edit}" immediate="true" type="submit"
+				action="#{reservationController.save}" value="Save" />
+			<h:commandButton action="#{reservationController.clear}" value="Clear" />
+           
 		</h:form>
-		<h:panelGroup rendered="#{empty reservationController.getUserReservations(loggedUser)}">
+		<h:panelGroup rendered="#{empty userReservations}">
 			<p>No reservations found!</p>
 		</h:panelGroup>
    </ui:define>

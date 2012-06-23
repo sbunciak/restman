@@ -23,6 +23,9 @@ public class UserManager {
 
 	@Inject
 	private EntityManager em;
+	
+	@Inject
+	private ReservationManager rm;
 
 	@Inject
 	private Logger log;
@@ -49,6 +52,7 @@ public class UserManager {
 
 	@RolesAllowed({"ADMIN"})
 	public void deleteUser(User user) {
+		rm.removeAllUserReservations(user);
 		em.remove(em.merge(user));
 		log.info("User: name=" + user.getFirstName() + " " + user.getSecondName()
 				+ " was succesfully deleted");

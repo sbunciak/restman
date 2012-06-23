@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<configuration>
+<rootpath>"/rest"</rootpath>
+<rest>
+<applicationclass>
+<package>org.jboss.community.pv243.rest</package>
+<name>/home/rhopp/git/restman/restman/src/main/java/org/jboss/community/pv243/rest/JaxRsActivator.java</name>
+</applicationclass>
+</rest>
+</configuration>

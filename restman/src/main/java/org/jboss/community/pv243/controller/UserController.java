@@ -1,5 +1,7 @@
 package org.jboss.community.pv243.controller;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
@@ -9,7 +11,6 @@ import javax.inject.Named;
 
 import org.jboss.community.pv243.model.User;
 import org.jboss.community.pv243.service.UserManager;
-import java.io.Serializable;
 
 @Named
 @SessionScoped

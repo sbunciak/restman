@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema">
+ <datasource jndi-name="java:jboss/datasources/BIRT_Classic_Models_Sample_Database" enabled="true" 
+     use-java-context="true" pool-name="BIRT_Classic_Models_Sample_Database">
+  <connection-url>jdbc:derby:/home/rhopp/workspace-pv243/.metadata/.plugins/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb/db/BirtSample</connection-url>
+  <driver>derby.jar</driver>
+  <pool></pool>
+  <security>
+   <user-name>ClassicModels</user-name>
+   <password></password>
+  </security>
+ </datasource>
+</datasources>
