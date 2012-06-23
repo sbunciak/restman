@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.Stateless;
+import javax.enterprise.event.Event;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -24,14 +25,18 @@ public class ReservationManager {
 
 	@Inject
 	private Logger log;
+	
+	@Inject
+	private Event<Reservation> reservationEventSrc;
 
 	@RolesAllowed({"USER", "MANAGER"})
 	public void createReservation(Reservation reservation, User user, Restaurant restaurant) {
 		
-		user.getReservations().add(reservation);
-		em.merge(user);
-		restaurant.getReservations().add(reservation);
-		em.merge(restaurant);
+//		user.getReservations().add(reservation);
+//		em.merge(user);
+//		
+//		restaurant.getReservations().add(reservation);
+//		em.merge(restaurant);
 		
 		reservation.setUser(user);
 		reservation.setRestaurant(restaurant);
@@ -42,7 +47,7 @@ public class ReservationManager {
 		log.info("Reservation: " + reservation.getId() 
 				+ " was created for user "
 				+ user.getFirstName() + " " + user.getSecondName());
-
+		reservationEventSrc.fire(reservation);
 	}
 
 	@RolesAllowed({"USER", "MANAGER"})
@@ -53,7 +58,7 @@ public class ReservationManager {
 		em.remove(attachedReserv);
 		log.info("Reservation: " + reservation.getId() 
 				+ " was removed");
-
+		reservationEventSrc.fire(reservation);
 	}
 	
 	@RolesAllowed({"USER", "MANAGER"})
@@ -63,6 +68,7 @@ public class ReservationManager {
 				+ " was updated for user: name="
 				+ reservation.getUser().getFirstName()
 				+ " " + reservation.getUser().getSecondName());
+		reservationEventSrc.fire(reservation);
 	}
 
 	@RolesAllowed({"USER", "MANAGER"})

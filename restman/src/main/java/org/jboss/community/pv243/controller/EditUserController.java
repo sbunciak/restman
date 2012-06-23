@@ -3,7 +3,7 @@ package org.jboss.community.pv243.controller;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -13,7 +13,7 @@ import org.jboss.community.pv243.model.User;
 import org.jboss.community.pv243.service.UserManager;
 
 @Named
-@SessionScoped
+@ConversationScoped
 public class EditUserController implements Serializable {
 
 	private static final long serialVersionUID = 6987051567930204090L;

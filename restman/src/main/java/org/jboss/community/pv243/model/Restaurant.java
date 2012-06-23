@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -13,9 +12,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Entity implementation class for Entity: Restaurant
@@ -26,6 +25,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 @NamedQueries({
 		@NamedQuery(name = "Restaurant.findAll", query = "SELECT r FROM Restaurant r"),
 		@NamedQuery(name = "Restaurant.getByEmail", query = "SELECT r FROM Restaurant r WHERE r.email = :email"),
+		@NamedQuery(name = "Restaurant.getByName", query = "SELECT r FROM Restaurant r WHERE r.name = :name"),
 		@NamedQuery(name = "Restaurant.auth", query = "SELECT r FROM Restaurant r WHERE r.email = :email AND r.password = :password") })
 public class Restaurant extends AbstractUser implements Serializable {
 
@@ -41,10 +41,10 @@ public class Restaurant extends AbstractUser implements Serializable {
 	@NotEmpty(message="Please enter the address of restaurant")
 	private String address;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "restaurant")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private Collection<Reservation> reservations;
 
-	// hibernate workaround for 2 eager fetches
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "restaurant")
 	private Collection<MenuItem> menu;

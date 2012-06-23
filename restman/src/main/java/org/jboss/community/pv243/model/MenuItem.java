@@ -17,6 +17,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
@@ -35,6 +37,7 @@ public class MenuItem implements Serializable {
 	private Restaurant restaurant;
 	
 	@ManyToMany(mappedBy="reservedMenu")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private Collection<Reservation> reservations;
 	
 	@NotNull(message="Please enter the name of menu item")

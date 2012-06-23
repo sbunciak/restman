@@ -22,6 +22,9 @@ public class RestaurantManager {
 
 	@Inject
 	private EntityManager em;
+	
+	@Inject
+	private ReservationManager rm;
 
 	@Inject
 	private Logger log;
@@ -53,6 +56,7 @@ public class RestaurantManager {
 
 	@RolesAllowed({"ADMIN"})
 	public void deleteRestaurant(Restaurant restaurant) {
+		rm.removeAllRestaurantReservation(restaurant);
 		em.remove(em.merge(restaurant));
 		log.info("Restaurant: " + restaurant.getName()
 				+ " was succesfully deleted");
@@ -74,6 +78,12 @@ public class RestaurantManager {
 	public Restaurant getRestaurantByEmail(String email){
 		TypedQuery<Restaurant> query = em.createNamedQuery("Restaurant.getByEmail", Restaurant.class);
 		query.setParameter("email", email);
+		return query.getSingleResult();
+	}
+	
+	public Restaurant getRestaurantByName(String name){
+		TypedQuery<Restaurant> query = em.createNamedQuery("Restaurant.getByName", Restaurant.class);
+		query.setParameter("name", name);
 		return query.getSingleResult();
 	}
 

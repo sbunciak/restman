@@ -13,8 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.Min;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  * Entity implementation class for Entity: Reservation
@@ -39,6 +41,7 @@ public class Reservation implements Serializable {
 	private Restaurant restaurant;
 	
 	@ManyToMany
+	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(
 		name="reserved_menu_items",
 		joinColumns={
@@ -50,7 +53,6 @@ public class Reservation implements Serializable {
 					referencedColumnName="id_menu_item")
 		}
 	)
-	// TODO: @LazyCollection(LazyCollectionOption.FALSE)
 	private Collection<MenuItem> reservedMenu;
 	
 	//@Future
@@ -59,7 +61,7 @@ public class Reservation implements Serializable {
 	@Column(name="table_number")
 	private int tableNumber;
 	
-	@Min(1)
+//	@Min(1)
 	private int seats;
 
 	public int getId() {

@@ -15,7 +15,6 @@ import org.jboss.community.pv243.model.Restaurant;
 import org.jboss.community.pv243.service.MenuItemManager;
 import org.jboss.community.pv243.service.RestaurantManager;
 
-
 @Named
 @SessionScoped
 public class MenuController implements Serializable{

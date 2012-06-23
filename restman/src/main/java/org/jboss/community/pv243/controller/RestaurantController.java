@@ -4,11 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Produces;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -17,7 +15,7 @@ import org.jboss.community.pv243.model.Restaurant;
 import org.jboss.community.pv243.service.RestaurantManager;
 
 @Named
-@ConversationScoped
+@SessionScoped
 public class RestaurantController implements Serializable {
 
 	private static final long serialVersionUID = 8049789937694766621L;
