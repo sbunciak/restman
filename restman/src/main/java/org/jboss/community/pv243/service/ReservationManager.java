@@ -50,6 +50,7 @@ public class ReservationManager {
 		
 		em.remove(attachedReserv);		
 		log.info("Reservation was removed from user: " + userName);
+		reservationEventSrc.fire(reservation);
 	}
 	
 	@RolesAllowed({"USER", "MANAGER"})

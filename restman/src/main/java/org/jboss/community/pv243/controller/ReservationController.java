@@ -1,5 +1,6 @@
 package org.jboss.community.pv243.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -61,9 +62,9 @@ public class ReservationController implements Serializable, Converter{
 		if (!facesContext.getExternalContext().isUserInRole("MANAGER")){
 			throw new IllegalStateException("Uzivatel neni v roli MANAGER");
 		}
-		if (restaurant== null){
+		//if (restaurant== null){
 		restaurant = restaurantManager.getRestaurantByEmail(facesContext.getExternalContext().getUserPrincipal().getName());
-		}
+		//}
 		return restaurant;
 	}
 	
@@ -88,13 +89,22 @@ public class ReservationController implements Serializable, Converter{
 		facesContext.addMessage(null, new FacesMessage(
 				FacesMessage.SEVERITY_INFO, "Registration successful",
 				"Reservation was successfuly registered"));
-		
 		initReservation();
+		try {
+			facesContext.getExternalContext().redirect("/restman/restSpace/reservationsManagement.jsf");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void deleteReservation(Reservation reservation){
 		reservationManager.removeReservation(reservation);
 		initReservation();
+		/*try {
+			facesContext.getExternalContext().redirect("/restman/restSpace/reservationsManagement.jsf");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
 	}
 
 	public void editReservation(Reservation newReservation) {
@@ -106,6 +116,11 @@ public class ReservationController implements Serializable, Converter{
 		reservationManager.updateReservation(newReservation);
 		edit = false;
 		initReservation();
+		/*try {
+			facesContext.getExternalContext().redirect("/restman/restSpace/reservationsManagement.jsf");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}*/
 	}
 
 	@PostConstruct
