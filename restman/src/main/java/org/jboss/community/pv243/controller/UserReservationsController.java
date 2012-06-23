@@ -98,6 +98,7 @@ public class UserReservationsController implements Serializable, Converter{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		edit = false;
 		initReservation();
 	}
 
