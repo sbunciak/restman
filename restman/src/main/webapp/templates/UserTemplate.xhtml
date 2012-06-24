@@ -1,71 +1,93 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-   xmlns:h="http://java.sun.com/jsf/html"
-   xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <h:head>
-   <title>Java EE 6 Starter Application</title>
-   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-   <h:outputStylesheet name="css/my.css" />
+	<title>Java EE 6 Starter Application</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet name="css/my.css" />
 </h:head>
 <h:body>
-   <div id="container">
-      <div id="top" style="height:110px;">
-      	<div style="width:130px;float:left;">
-			<img height="100px" src="#{request.contextPath}/resources/gfx/RESTManBlack.png" />
-        </div>
-      	<div  style="width:550px;float:left;" >
-      	 <ui:insert name="top">
+	<div id="container">
+		<div id="top" style="height: 110px;">
+			<div style="width: 130px; float: left;">
+				<img height="100px"
+					src="#{request.contextPath}/resources/gfx/RESTManBlack.png" />
+			</div>
+			<div style="width: 550px; float: left;">
+				<ui:insert name="top">
          	Top!
          </ui:insert>
-        </div>
-        <div style="width:100px;float:left;" >
-        	<h:form>
-      	 	<h:commandLink value="Login" action="#{loginController.login}" rendered="#{!loginController.logged}"/>
-      	 		<h:commandLink value="Logout" action="#{loginController.logout}" rendered="#{loginController.logged}"/>
-      	 	</h:form>
-      	 	<h:outputText value="Logged in as #{loginController.loggedUser}" rendered="#{loginController.logged}" />
-      	 	<h:outputLink rendered="#{loginController.loggedUser}" value="#{request.contextPath}/registerUser.jsf">Register</h:outputLink><br/>
-      	 	<h:messages styleClass="messages" errorClass="invalid" infoClass="valid" warnClass="warning"
-	                           globalOnly="true"/>
-        </div>  
-      </div>
-      <div id="left">
-      	 <ui:insert name="left">
-      	 	<br />
-      	 	<br />
-      	 	<h:outputLink value="#{request.contextPath}/index.jsf">Index</h:outputLink><br/>
-      	 	<h:outputLink value="#{request.contextPath}/showRestaurants.jsf">Show Restaurants</h:outputLink><br/>
-      	 	<h:panelGroup layout="block" rendered="#{loginController.user}">
-      	 		<h:outputLink value="#{request.contextPath}/userSpace/editInfo.jsf">Edit User Info</h:outputLink><br/>
-      	 		<h:outputLink value="#{request.contextPath}/userSpace/manageReservations.jsf">Manage Reservations</h:outputLink><br/>
-      	 	</h:panelGroup>
-      	 	<h:panelGroup layout="block" rendered="#{loginController.manager}">
-      	 		<h:outputLink value="#{request.contextPath}/restSpace/editRestaurant.jsf">Edit Restaurant Info</h:outputLink><br/>
-      	 		<h:outputLink value="#{request.contextPath}/restSpace/menuItemManagement.jsf">Edit Restaurant Menu</h:outputLink><br/>
-      	 		<h:outputLink value="#{request.contextPath}/restSpace/reservationsManagement.jsf">Edit Reservations</h:outputLink><br/>
-      	 	</h:panelGroup>
-      	 	<h:panelGroup layout="block" rendered="#{loginController.admin}">
-      	 		<h:outputLink value="#{request.contextPath}/adminSpace/userManagement.jsf">Management of Users</h:outputLink><br/>
-      	 		<h:outputLink value="#{request.contextPath}/adminSpace/restManagement.jsf">Management of Restaurants</h:outputLink><br/>
-      	 	</h:panelGroup>
-      	 	<!-- <h:outputLink value="#{request.contextPath}/addUser.jsf">Add User</h:outputLink><br/> -->
-      	 	
-         	<!-- <h:outputLink value="#{request.contextPath}/addRestaurant.jsf">Add Restaurant</h:outputLink><br/> -->
- 
-         </ui:insert>
-      </div>
-      <div id="content">
-         <ui:insert name="content">
+			</div>
+			<div style="width: 100px; float: left;">
+				<h:panelGrid columns="2">
+					<h:form>
+						<h:commandLink value="Login" action="#{loginController.login}"
+							rendered="#{!loginController.logged}" />
+						<h:commandLink value="Logout" action="#{loginController.logout}"
+							rendered="#{loginController.logged}" />
+					</h:form>
+					<h:outputText value="#{loginController.loggedUser}"
+						rendered="#{loginController.logged}" />
+					<h:outputLink rendered="#{loginController.loggedUser}"
+						value="#{request.contextPath}/registerUser.jsf">Register</h:outputLink>
+					<br />
+				</h:panelGrid>
+				<h:messages styleClass="messages" errorClass="invalid"
+						infoClass="valid" warnClass="warning" globalOnly="true" />
+			</div>
+		</div>
+		<div id="left">
+			<ui:insert name="left">
+				<br />
+				<br />
+				<h:outputLink value="#{request.contextPath}/index.jsf">Index</h:outputLink>
+				<br />
+				<h:outputLink value="#{request.contextPath}/showRestaurants.jsf">Show Restaurants</h:outputLink>
+				<br />
+				<h:panelGroup layout="block" rendered="#{loginController.user}">
+					<h:outputLink value="#{request.contextPath}/userSpace/editInfo.jsf">Edit User Info</h:outputLink>
+					<br />
+					<h:outputLink
+						value="#{request.contextPath}/userSpace/manageReservations.jsf">Manage Reservations</h:outputLink>
+					<br />
+				</h:panelGroup>
+				<h:panelGroup layout="block" rendered="#{loginController.manager}">
+					<h:outputLink
+						value="#{request.contextPath}/restSpace/editRestaurant.jsf">Edit Restaurant Info</h:outputLink>
+					<br />
+					<h:outputLink
+						value="#{request.contextPath}/restSpace/menuItemManagement.jsf">Edit Restaurant Menu</h:outputLink>
+					<br />
+					<h:outputLink
+						value="#{request.contextPath}/restSpace/reservationsManagement.jsf">Edit Reservations</h:outputLink>
+					<br />
+				</h:panelGroup>
+				<h:panelGroup layout="block" rendered="#{loginController.admin}">
+					<h:outputLink
+						value="#{request.contextPath}/adminSpace/userManagement.jsf">Management of Users</h:outputLink>
+					<br />
+					<h:outputLink
+						value="#{request.contextPath}/adminSpace/restManagement.jsf">Management of Restaurants</h:outputLink>
+					<br />
+				</h:panelGroup>
+				<!-- <h:outputLink value="#{request.contextPath}/addUser.jsf">Add User</h:outputLink><br/> -->
+
+				<!-- <h:outputLink value="#{request.contextPath}/addRestaurant.jsf">Add Restaurant</h:outputLink><br/> -->
+
+			</ui:insert>
+		</div>
+		<div id="content">
+			<ui:insert name="content">
                     [Template content will be inserted here]
          </ui:insert>
-      </div>
-      <div id="footer">
-         <p>
-            This project was generated from a Maven archetype from
-            JBoss.<br />
-         </p>
-      </div>
-   </div>
+		</div>
+		<div id="footer">
+			<p>
+				This project was generated from a Maven archetype from JBoss.<br />
+			</p>
+		</div>
+	</div>
 </h:body>
 </html>
