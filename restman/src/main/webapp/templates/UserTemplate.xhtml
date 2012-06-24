@@ -30,12 +30,10 @@
 					</h:form>
 					<h:outputText value="#{loginController.loggedUser}"
 						rendered="#{loginController.logged}" />
-					<h:outputLink rendered="#{loginController.loggedUser}"
+					<h:outputLink rendered="#{!loginController.logged}"
 						value="#{request.contextPath}/registerUser.jsf">Register</h:outputLink>
 					<br />
 				</h:panelGrid>
-				<h:messages styleClass="messages" errorClass="invalid"
-						infoClass="valid" warnClass="warning" globalOnly="true" />
 			</div>
 		</div>
 		<div id="left">

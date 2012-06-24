@@ -1,6 +1,5 @@
 package org.jboss.community.pv243.controller;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collection;
 
